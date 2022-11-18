@@ -1,2 +1,1 @@
-# iac_lab_4_group_34
-2nd year EIE IAC lab 4 — simplified RISC-V implementation
+This is group 34's code for Imperial College London's 2nd year EIE IAC lab 4: a simplified RISC-V implementation with the `addi` and `bne` instructions.
