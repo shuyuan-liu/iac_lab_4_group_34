@@ -1,4 +1,4 @@
-module ProgramCounter 
+module program_counter 
 (
     input logic clk,
     input logic rst,
@@ -7,7 +7,7 @@ module ProgramCounter
     output logic [31:0] PC
 );
 
-always_ff @(posedge clk)begin
+always_ff @(posedge clk) begin
     if(rst) 
         PC <= 0;
     else 
