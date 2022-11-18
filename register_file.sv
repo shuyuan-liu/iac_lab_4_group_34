@@ -13,12 +13,12 @@ module resgister_file #(
     output logic[DATA_WIDTH-1:0] a0
 );
     
-logic[DATA_WIDTH-1:0] registers[ADDR_WIDTH-1:0];
+logic[DATA_WIDTH-1:0] registers[2**ADDR_WIDTH-1:0];
 
 always_comb begin
-    rd1 = registers[ad1];
-    rd2 = registers[ad2];
-    a0 = registers[0];
+    rd1 = (ad1 == 0) ? 0 : registers[ad1]; // x0 is the constant zero register
+    rd2 = (ad2 == 0) ? 0 : registers[ad2];
+    a0 = registers[10];                    // a0 is register x10
 end
 
 always_ff @(posedge clk) begin
