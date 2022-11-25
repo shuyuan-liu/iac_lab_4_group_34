@@ -10,7 +10,7 @@ module resgister_file #(
     output logic[DATA_WIDTH-1:0] rd2,
     input  logic[DATA_WIDTH-1:0] wd3,
     input  logic                 we3,
-    output logic[DATA_WIDTH-1:0] a0
+    output logic[DATA_WIDTH-1:0] a0 // This debug port outputs the content of register a0 (x10)
 );
     
 logic[DATA_WIDTH-1:0] registers[2**ADDR_WIDTH-1:0];
