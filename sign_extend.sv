@@ -16,7 +16,7 @@ instrmem immediate (
     .immediate(immediate)
 );
 
-rom sign_extend(
+program_counter sign_extend(
     .addr(immediate),
     .dout(ImmOp)
 );
