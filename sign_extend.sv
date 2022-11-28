@@ -7,9 +7,9 @@ module sign_extend #(
 );
 
 if(ImmSrc==1) begin
-    assign ImmOp = {{20{b[1]}},immediate};
+    assign ImmOp = {20'b11111111111111111111,immediate};
 else
-    assign ImmOp = {{20{b[0]}},immediate};
+    assign ImmOp = {20'b00000000000000000000,immediate};
 end
 
 instrmem immediate (
