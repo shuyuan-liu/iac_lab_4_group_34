@@ -20,5 +20,10 @@ program_counter sign_extend(
     .addr(immediate),
     .dout(ImmOp)
 );
+    
+alu sign_extend(
+    .addr(immediate),
+    .dout(ImmOp)
+);
 
 endmodule
