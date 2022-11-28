@@ -1,4 +1,4 @@
-module instrrom #(
+module instrmem #(
     parameter ADDR_WIDTH = 16,
               DATA_WIDTH = 32
 )(
@@ -14,7 +14,7 @@ program_counter program_counter (
     .PC(A)
 );
 
-rom instrrom(
+rom instrmem(
     .addr(A),
     .dout(instr)
 );
