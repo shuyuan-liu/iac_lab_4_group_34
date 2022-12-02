@@ -1,21 +1,22 @@
 module control #(
-    // bits in counter set to 8 bits
-    parameter WIDTH = 32
-)(
     // interface signals
-    input logic EQ,
-    input logic [WIDTH-1:0] instr,
+    input logic [6:0] op,
+    input logic [2:0] funct3,
+    input logic func7_5,
+    input logic Zero,
     output logic RegWrite, //clk
-    output logic ALUctrl, //reset
+    output logic [2:0] ALUctrl, //reset
     output logic ALUsrc, // enable
-    output logic ImmSrc,//increment
-    output logic PCsrc //count output
+    output logic [1:0] ImmSrc,//increment
+    output logic PCsrc, //count output
+    output logic ResultSrc,
+    output logic MemWrite
 );
 // indicates that this is a clocked circuit
 
 always_comb begin
-    if(instr[6:0]==19) begin
-        if(instr[14:12]==0) begin //addi
+    if(op==19) begin
+        if(funct3==0) begin //addi
             assign RegWrite = 1;
         end
         assign ALUsrc = 1; //immediate
