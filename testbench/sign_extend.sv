@@ -6,10 +6,8 @@ module sign_extend #(
     output logic [31:0] ImmOp
 );
 
-if(ImmSrc==1) 
-    assign ImmOp = {{20{1'b1}},immediate};
-else
-    assign ImmOp = {{20{1'b0}},immediate};
+
+    assign ImmOp = ImmSrc ? {{20{1'b0}},immediate} :{{20{1'b1}},immediate};
 
 
 

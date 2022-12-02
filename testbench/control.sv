@@ -13,7 +13,7 @@ module control #(
 );
 // indicates that this is a clocked circuit
 
-
+always_comb begin
     if(instr[6:0]==19) begin
         if(instr[14:12]==0) begin //addi
             assign RegWrite = 1;
@@ -43,7 +43,7 @@ module control #(
         else //PC
             assign PCsrc = 0;
 
-
+end
 
 
 
