@@ -65,7 +65,7 @@ rand:
 
     li t1, 0
     parity_loop:
-        # See http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetKernighan for parity algorithm
+        # See http://graphics.stanford.edu/~seander/bithacks.html#ParityNaive for parity algorithm
         beq t0, zero, rand_finish
         xori t1, t1, 1
         addi t2, t0, -1
