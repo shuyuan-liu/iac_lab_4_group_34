@@ -26,7 +26,7 @@ always_comb begin
             assign ImmSrc = 1;
     end 
 
-    else if(instr[6:0]==51) begin
+    else if(op]==51) begin
         assign ALUsrc = 0; //immediate
         if(instr[31:25]==0 & instr[14:12]==0) //add
             assign ALUctrl = 0;
@@ -34,12 +34,12 @@ always_comb begin
             assign ALUctrl = 1;
     end
 
-    else if(instr[6:0]==99)
+    else if(op==99)
         if(instr[31:25]==0 & instr[14:12]==3'b001) //bne
             assign RegWrite = 1;
 
-    else if(instr[6:0]==23)
-        if(EQ == 0) //PC+Imm
+    else if(op==23)
+        if(Zero == 0) //PC+Imm
             assign PCsrc = 1;
         else //PC
             assign PCsrc = 0;
