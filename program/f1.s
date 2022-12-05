@@ -22,32 +22,37 @@ main_loop:
 
         # Turn on one more light
         slli a0, a0, 1
-        addi a0, a0, 1
+        ori a0, a0, 1
 
         # Wait before turning on the next light
-        li t0, LIGHT_UP_INTERVAL
-        delay_loop_light_up:
-            addi t0, t0, -1
-            bnez t0, delay_loop_light_up
+        li a2, LIGHT_UP_INTERVAL
+        jal delay
 
         # Exit loop when all lights are on
         bne a0, s1, light_up_loop
 
     # Wait a randem amount of time, then turn all lights off
     jal rand
-    srli t0, a1, 4 # Divide random number by 16 to make it a similar size to the previous delays
-    delay_loop_lights_off:
-        addi t0, t0, -1
-        bnez t0, delay_loop_lights_off
+    mv a2, a1
+    jal delay
+
+    # Random wait done; turn all lights off
     li a0, 0
 
     # Wait before starting the next light cycle
-    li t0, BREAK_INTERVAL
-    delay_loop_break:
-        addi t0, t0, -1
-        bnez t0, delay_loop_break
+    li a2, BREAK_INTERVAL
+    jal delay
 
     j main_loop
+
+# Delay (2x) a specified number of cycles passed in a2
+delay:
+    # t0: delay counter
+    mv t0, a2
+    delay_loop:
+        addi, t0, t0, -1
+        bnez t0, delay_loop
+    ret
 
 # Generate a 8-bit random number using a linear feedback shift register
 # Shift register stored in s0; return value is in a1
