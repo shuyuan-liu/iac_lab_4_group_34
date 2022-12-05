@@ -57,27 +57,34 @@ delay:
 # Shift register stored in s0; return value is in a1
 # s0 must be initialized to a non-zero value before the first call
 rand:
-    # t0: the bits to be XOR'd extracted from the shift register
-    # t1: parity of t0, = XOR of the extracted bits.
-    # t2: temporary to hold t0 - 1 while calculating parity
+    # t0: the bits to be XOR'd extracted from the shift register, = (LFSR_TAPS & LFSR)
+    # t1: parity of t0, = XOR of the tapped bits.
+    # t2: temporary register for calculating parity
 
+    # Parity (XOR) algorithm: http://graphics.stanford.edu/~seander/bithacks.html#ParityParallel
+
+    # Calculate the new lowest bit, = the XOR of the tapped bits, = the parity of the tapped word
     andi t0, s0, LFSR_TAPS
 
-    li t1, 0
-    parity_loop:
-        # See http://graphics.stanford.edu/~seander/bithacks.html#ParityNaive for parity algorithm
-        beq t0, zero, rand_finish
-        xori t1, t1, 1
-        addi t2, t0, -1
-        and t0, t0, t2
-        j parity_loop
+    srli t2, t0, 16
+    xor t0, t2, t0
+    srli t2, t0, 8
+    xor t0, t2, t0
+    srli t2, t0, 4
+    xor t0, t2, t0
+    srli t2, t0, 2
+    xor t0, t2, t0
+    srli t2, t0, 1
+    xor t0, t2, t0
 
-    rand_finish:
-        mv a1, s0
+    andi t1, t2, 0x1
 
-        # Shift the register and add in the new bit 0 held by t1
-        slli s0, s0, 1
-        andi s0, s0, LFSR_MASK
-        or s0, s0, t1
+    # Shift the register and put in the new lowest bit from t1
+    slli s0, s0, 1
+    andi s0, s0, LFSR_MASK
+    or s0, s0, t1
 
-        ret
+    # Return the newly generated value through a1
+    mv a1, s0
+
+    ret
