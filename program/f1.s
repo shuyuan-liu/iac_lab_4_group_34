@@ -59,7 +59,7 @@ delay:
 rand:
     # t0: the bits to be XOR'd extracted from the shift register, = (LFSR_TAPS & LFSR)
     # t1: parity of t0, = XOR of the tapped bits.
-    # t2: temporary register for calculating parity
+    # t2: temporary register holding shifted versions of t0
 
     # Parity (XOR) algorithm: http://graphics.stanford.edu/~seander/bithacks.html#ParityParallel
 
@@ -77,7 +77,7 @@ rand:
     srli t2, t0, 1
     xor t0, t2, t0
 
-    andi t1, t2, 0x1
+    andi t1, t0, 0x1
 
     # Shift the register and put in the new lowest bit from t1
     slli s0, s0, 1
