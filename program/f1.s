@@ -4,13 +4,12 @@
 # Function of registers:
 # a0: lights (lowest 8 bits)
 # a1: random number returned by the `rand` subroutine
-# t0: delay counter in `main`
+# a2: delay passed to the `delay` subroutine
 
 .equ LIGHT_UP_INTERVAL, 10 # The delay between turning on each light
-.equ BREAK_INTERVAL, 50    # The time to wait before starting new cycle after the lights go off
-.equ TAPS, 0xB4            # Feedback term used by the LFSR
-
-.text
+.equ BREAK_INTERVAL, 50    # The time to wait after lights go off before starting new cycle
+.equ LFSR_MASK, 0x000F     # The bits to keep in the LFSR (e.g. 0x3F = 6-bit LFSR); other bits are discarded after each shift
+.equ LFSR_TAPS, 0x0009     # Feedback term for the LFSR. For maximal-length taps see http://users.ece.cmu.edu/~koopman/lfsr/
 
 li a0, 0    # Turn off all lights to start with
 li s0, 1    # Initialise the LFSR with seed 1
@@ -62,7 +61,7 @@ rand:
     # t1: parity of t0, = XOR of the extracted bits.
     # t2: temporary to hold t0 - 1 while calculating parity
 
-    andi t0, s0, TAPS
+    andi t0, s0, LFSR_TAPS
 
     li t1, 0
     parity_loop:
@@ -78,7 +77,7 @@ rand:
 
         # Shift the register and add in the new bit 0 held by t1
         slli s0, s0, 1
-        andi s0, s0, 0xFF
+        andi s0, s0, LFSR_MASK
         or s0, s0, t1
 
         ret
