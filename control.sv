@@ -1,49 +1,153 @@
 module control #(
-    // bits in counter set to 8 bits
-    parameter WIDTH = 32
-)(
     // interface signals
-    input logic EQ,
-    input logic [WIDTH-1:0] instr,
+    input logic [6:0] op,
+    input logic [2:0] funct3,
+    input logic func7_5,
+    input logic Zero,
     output logic RegWrite, //clk
-    output logic ALUctrl, //reset
+    output logic [2:0] ALUctrl, //add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
     output logic ALUsrc, // enable
-    output logic ImmSrc,//increment
-    output logic PCsrc //count output
+    output logic [1:0] ImmSrc,//I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
+    output logic PCsrc, //count output
+    output logic ResultSrc, // only 1 if load
+    output logic MemWrite,
+    output logic ALUsrcA // only 1 for auipc, jal, jalr
 );
 // indicates that this is a clocked circuit
 
-
-    if(instr[6:0]==19) begin
-        if(instr[14:12]==0) begin //addi
-            assign RegWrite = 1;
-        end
+always_comb begin
+    if(op==19) begin
         assign ALUsrc = 1; //immediate
-        if(instr[31]==0)  //sign extend
-            assign ImmSrc = 0;
-        else
-            assign ImmSrc = 1;
-
-    else if(instr[6:0]==51) begin
-        assign ALUsrc = 0; //immediate
-        if(instr[31:25]==0 & instr[14:12]==0) //add
+        assign ImmSrc = 0; //I-type
+        assign RegWrite = 1; // alu
+        assign ResultSrc = 0;
+        assign PCsrc = 0;
+        assign MemWrite = 0;
+        assign ALUsrcA = 0;
+        if (func3==0) begin //addi
             assign ALUctrl = 0;
-        else if(instr[31:25]==7'b0100000 & instr[14:12]==0) //sub
+        end
+        else if (func3==1) begin //slli
+            assign ALUctrl = 5;
+        end
+        else if (func3==4) begin //xori
+            assign ALUctrl = 4;
+        end
+        else if (func3==5) begin //srli
+            assign ALUctrl = 6;
+        end
+        else if (func3==7) begin //andi
+            assign ALUctrl = 2;
+        end
+    end 
+
+    else if(op==23) begin //auipc
+        assign PCsrc = 0;
+        assign ALUsrc = 1;
+        assign ImmSrc = 2;
+        assign RegWrite = 1;
+        assign ResultSrc = 0;
+        assign MemWrite = 0;
+        assign ALUctrl = 0; //add upper immediate
+        assign ALUsrcA = 1;
+    end
+
+    else if(op==35) begin// store
+        assign MemWrite = 1;
+        assign ResultSrc = 0; 
+        assign PCsrc = 0;
+        assign ALUsrc = 0;
+        assign ImmSrc = 0;
+        assign RegWrite = 0;
+        assign ALUctrl = 7;
+        assign ALUsrcA = 0;
+    end
+
+    else if(op==51) begin
+        assign ALUsrc = 0; // RD2
+        assign ImmSrc = 0; //R-type
+        assign RegWrite = 1; // alu
+        assign ResultSrc = 0;
+        assign PCsrc = 0;
+        assign MemWrite = 0;
+        assign ALUsrcA = 0;
+        if (func3==0 && func7_5==0) begin //add
+            assign ALUctrl = 0;
+        end
+        if (func3==0 && func7_5==1) begin //sub
             assign ALUctrl = 1;
+        end
+        else if (func3==6) begin //or
+            assign ALUctrl = 3;
+        end
+        else if (func3==7) begin //and
+            assign ALUctrl = 2;
+        end
     end
 
-    else if(instr[6:0]==99)
-        if(instr[31:25]==0 & instr[14:12]==3'b001) //bne
-            assign RegWrite = 1;
-
-    else if(instr[6:0]==23)
-        if(EQ == 0) //PC+Imm
-            assign PCsrc = 1;
-        else //PC
-            assign PCsrc = 0;
-
+    else if(op==55) begin
+        assign ImmSrc = 2;
+        assign RegWrite = 1;
+        assign ALUsrc = 1;
+        assign PCsrc = 0;
+        assign ResultSrc = 0;
+        assign MemWrite = 0;
+        assign ALUctrl = 7;
+        assign ALUsrcA = 0;
     end
 
+    else if(op==99) begin
+        assign ALUctrl = 1; // bne, beq need minus
+        if (func3==0) // beq
+            PCsrc = Zero;
+        else if (func3==1) //bne
+            PCsrc = !Zero;
+        assign ResultSrc = 0;
+        assign MemWrite = 0;
+        assign ALUsrc = 0;
+        assign ImmSrc = 1;
+        assign RegWrite = 0;
+        assign ALUsrcA = 0;
+    end
+
+
+    else if(op==103) begin //jalr
+        assign ImmSrc = 0;
+        assign PCsrc = 1;
+        assign ALUsrc = 1;
+        assign RegWrite = 1;
+        assign MemWrite = 0;
+        assign ResultSrc = 0;
+        assign ALUctrl = 7;
+        assign ALUsrcA = 1;
+    end
+
+    else if(op==111) begin // jal
+        assign PCsrc = 1;
+        assign ResultSrc = 0;
+        assign MemWrite = 0;
+        assign ALUctrl = 7;
+        assign ALUsrc = 0;
+        assign ImmSrc = 3;
+        assign RegWrite = 1;
+        assign ALUsrcA = 1;
+    end
+
+    else if(op==3) begin //load
+        assign PCsrc = 0;
+        assign ResultSrc = 1;
+        assign MemWrite = 0;
+        assign ALUctrl = 7;
+        assign ALUsrc = 0;
+        assign ImmSrc = 0;
+        assign RegWrite = 1;
+        assign ALUsrcA = 0;
+    end
+        
+
+    
+
+end
 
 
 
