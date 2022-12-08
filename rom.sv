@@ -1,5 +1,5 @@
 module rom #(
-    parameter ADDR_WIDTH = 16,
+    parameter ADDR_WIDTH = 12,
               DATA_WIDTH = 8
 )(
     input  logic[ADDR_WIDTH-1:0] addr,
@@ -13,5 +13,5 @@ initial begin
 end
 
 assign dout = {memory[addr+3], memory[addr+2], memory[addr+1], memory[addr]};
-    
+
 endmodule
