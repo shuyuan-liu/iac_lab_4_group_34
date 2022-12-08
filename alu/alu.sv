@@ -16,7 +16,7 @@ always_comb begin
         4: out = op1 ^ op2;
         5: out = op1 << op2;
         6: out = op1 >> op2;
-        default: out = 0;
+        7: out = op1; // pass-through
     endcase
 end
 
