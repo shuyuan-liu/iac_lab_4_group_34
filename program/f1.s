@@ -20,8 +20,8 @@ main_loop:
     light_up_loop:
 
         # Turn on one more light
-        slli a0, a0, 1
-        ori a0, a0, 1
+        slli t0, a0, 1
+        ori a0, t0, 1
 
         # Wait before turning on the next light
         li a2, LIGHT_UP_INTERVAL
