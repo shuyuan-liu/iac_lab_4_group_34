@@ -11,18 +11,22 @@ VL_ATTR_COLD void Valu___024root__trace_init_sub__TOP__0(Valu___024root* vlSelf,
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declBit(c+1,"ctrl", false,-1);
+    tracep->declBus(c+1,"ctrl", false,-1, 2,0);
     tracep->declBus(c+2,"op1", false,-1, 31,0);
     tracep->declBus(c+3,"op2", false,-1, 31,0);
     tracep->declBus(c+4,"out", false,-1, 31,0);
     tracep->declBit(c+5,"zero", false,-1);
+    tracep->declBit(c+6,"less_than_unsigned", false,-1);
+    tracep->declBit(c+7,"less_than_signed", false,-1);
     tracep->pushNamePrefix("alu ");
-    tracep->declBus(c+6,"DATA_WIDTH", false,-1, 31,0);
-    tracep->declBit(c+1,"ctrl", false,-1);
+    tracep->declBus(c+8,"DATA_WIDTH", false,-1, 31,0);
+    tracep->declBus(c+1,"ctrl", false,-1, 2,0);
     tracep->declBus(c+2,"op1", false,-1, 31,0);
     tracep->declBus(c+3,"op2", false,-1, 31,0);
     tracep->declBus(c+4,"out", false,-1, 31,0);
     tracep->declBit(c+5,"zero", false,-1);
+    tracep->declBit(c+6,"less_than_unsigned", false,-1);
+    tracep->declBit(c+7,"less_than_signed", false,-1);
     tracep->popNamePrefix(1);
 }
 
@@ -66,10 +70,12 @@ VL_ATTR_COLD void Valu___024root__trace_full_sub_0(Valu___024root* vlSelf, Veril
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     // Body
-    bufp->fullBit(oldp+1,(vlSelf->ctrl));
+    bufp->fullCData(oldp+1,(vlSelf->ctrl),3);
     bufp->fullIData(oldp+2,(vlSelf->op1),32);
     bufp->fullIData(oldp+3,(vlSelf->op2),32);
     bufp->fullIData(oldp+4,(vlSelf->out),32);
     bufp->fullBit(oldp+5,(vlSelf->zero));
-    bufp->fullIData(oldp+6,(0x20U),32);
+    bufp->fullBit(oldp+6,(vlSelf->less_than_unsigned));
+    bufp->fullBit(oldp+7,(vlSelf->less_than_signed));
+    bufp->fullIData(oldp+8,(0x20U),32);
 }

@@ -22,8 +22,8 @@ end
 
 always_comb begin
     zero = (out == 0);
-    unsigned_less_than = (unsigned'(op1) < unsigned'(op2));
-    signed_less_than = (signed'(op1) < signed'(op2));
+    less_than_unsigned = (unsigned'(op1) < unsigned'(op2));
+    less_than_signed = (signed'(op1) < signed'(op2));
 end
 
 endmodule

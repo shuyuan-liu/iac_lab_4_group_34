@@ -13,8 +13,10 @@ class Valu___024root final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    VL_IN8(ctrl,0,0);
+    VL_IN8(ctrl,2,0);
     VL_OUT8(zero,0,0);
+    VL_OUT8(less_than_unsigned,0,0);
+    VL_OUT8(less_than_signed,0,0);
     VL_IN(op1,31,0);
     VL_IN(op2,31,0);
     VL_OUT(out,31,0);

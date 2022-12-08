@@ -13,6 +13,8 @@ Valu::Valu(VerilatedContext* _vcontextp__, const char* _vcname__)
     , vlSymsp{new Valu__Syms(contextp(), _vcname__, this)}
     , ctrl{vlSymsp->TOP.ctrl}
     , zero{vlSymsp->TOP.zero}
+    , less_than_unsigned{vlSymsp->TOP.less_than_unsigned}
+    , less_than_signed{vlSymsp->TOP.less_than_signed}
     , op1{vlSymsp->TOP.op1}
     , op2{vlSymsp->TOP.op2}
     , out{vlSymsp->TOP.out}

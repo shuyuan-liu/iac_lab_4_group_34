@@ -33,9 +33,11 @@ VL_ATTR_COLD void Valu___024root___ctor_var_reset(Valu___024root* vlSelf) {
     Valu__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Valu___024root___ctor_var_reset\n"); );
     // Body
-    vlSelf->ctrl = VL_RAND_RESET_I(1);
+    vlSelf->ctrl = VL_RAND_RESET_I(3);
     vlSelf->op1 = VL_RAND_RESET_I(32);
     vlSelf->op2 = VL_RAND_RESET_I(32);
     vlSelf->out = VL_RAND_RESET_I(32);
     vlSelf->zero = VL_RAND_RESET_I(1);
+    vlSelf->less_than_unsigned = VL_RAND_RESET_I(1);
+    vlSelf->less_than_signed = VL_RAND_RESET_I(1);
 }
