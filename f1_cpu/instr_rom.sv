@@ -1,6 +1,6 @@
 module instr_rom #(
-    parameter ADDR_WIDTH = 16,
-              DATA_WIDTH = 32
+    parameter ADDR_WIDTH = 12,
+              DATA_WIDTH = 8
 )(
     input  logic[ADDR_WIDTH-1:0] addr,
     output logic[DATA_WIDTH-1:0] dout
@@ -12,6 +12,6 @@ initial begin
     $readmemh("f1.s.hex", memory);
 end
 
-assign dout = memory[addr];
-    
+assign dout = {memory[read_addr+3], memory[read_addr+2], memory[read_addr+1], memory[read_addr]};
+
 endmodule
