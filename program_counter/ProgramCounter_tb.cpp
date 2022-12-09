@@ -1,6 +1,6 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
-#include "VProgramCounter.h"
+#include "Vprogram_counter.h"
 
 //#include "vbuddy.cpp"     // include vbuddy code
 #define MAX_SIM_CYC 100
@@ -12,7 +12,7 @@ int main(int argc, char **argv, char **env) {
 
   Verilated::commandArgs(argc, argv);
   // init top verilog instance
-  VProgramCounter * top = new VProgramCounter;
+  Vprogram_counter * top = new Vprogram_counter;
   // init trace dump
   Verilated::traceEverOn(true);
   VerilatedVcdC* tfp = new VerilatedVcdC;
