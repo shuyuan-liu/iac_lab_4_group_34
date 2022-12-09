@@ -12,6 +12,6 @@ initial begin
     $readmemh("f1.s.hex", memory);
 end
 
-assign dout = {memory[read_addr+3], memory[read_addr+2], memory[read_addr+1], memory[read_addr]};
+assign dout = {memory[addr+3], memory[addr+2], memory[addr+1], memory[addr]};
 
 endmodule
