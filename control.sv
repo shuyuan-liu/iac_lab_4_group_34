@@ -11,12 +11,14 @@ module control #(
     output logic PCsrc, //count output
     output logic ResultSrc, // only 1 if load
     output logic MemWrite,
-    output logic ALUsrcA // only 1 for auipc, jal, jalr
+    output logic ALUsrcA, // only 1 for auipc, 0 otherwise
+    output logic JALctrl // 1 if jalr or jal, 0 otherwise
 );
 // indicates that this is a clocked circuit
 
 always_comb begin
     if(op==19) begin
+        assign JALctrl = 0;
         assign ALUsrc = 1; //immediate
         assign ImmSrc = 0; //I-type
         assign RegWrite = 1; // alu
@@ -42,6 +44,7 @@ always_comb begin
     end 
 
     else if(op==23) begin //auipc
+        assign JALctrl = 0;
         assign PCsrc = 0;
         assign ALUsrc = 1;
         assign ImmSrc = 2;
@@ -53,6 +56,7 @@ always_comb begin
     end
 
     else if(op==35) begin// store
+        assign JALctrl = 0;
         assign MemWrite = 1;
         assign ResultSrc = 0; 
         assign PCsrc = 0;
@@ -64,6 +68,7 @@ always_comb begin
     end
 
     else if(op==51) begin
+        assign JALctrl = 0;
         assign ALUsrc = 0; // RD2
         assign ImmSrc = 0; //R-type
         assign RegWrite = 1; // alu
@@ -85,7 +90,8 @@ always_comb begin
         end
     end
 
-    else if(op==55) begin
+    else if(op==55) begin // lui
+        assign JALctrl = 0;
         assign ImmSrc = 2;
         assign RegWrite = 1;
         assign ALUsrc = 1;
@@ -97,6 +103,7 @@ always_comb begin
     end
 
     else if(op==99) begin
+        assign JALctrl = 0;
         assign ALUctrl = 1; // bne, beq need minus
         if (func3==0) // beq
             PCsrc = Zero;
@@ -112,6 +119,7 @@ always_comb begin
 
 
     else if(op==103) begin //jalr
+        assign JALctrl = 1;
         assign ImmSrc = 0;
         assign PCsrc = 1;
         assign ALUsrc = 1;
@@ -123,6 +131,7 @@ always_comb begin
     end
 
     else if(op==111) begin // jal
+        assign JALctrl = 1;
         assign PCsrc = 1;
         assign ResultSrc = 0;
         assign MemWrite = 0;
@@ -134,6 +143,7 @@ always_comb begin
     end
 
     else if(op==3) begin //load
+        assign JALctrl = 0;
         assign PCsrc = 0;
         assign ResultSrc = 1;
         assign MemWrite = 0;
