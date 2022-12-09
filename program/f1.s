@@ -49,7 +49,7 @@ delay:
     # t0: delay counter
     mv t0, a2
     delay_loop:
-        addi, t0, t0, -1
+        addi t0, t0, -1
         bnez t0, delay_loop
     ret
 
