@@ -7,7 +7,7 @@ module f1_cpu #(
    output logic a0
 
 );
- logic [ADDR_WIDTH-1:0] PC;
+ logic [DATA_WIDTH-1:0] PC;
  logic [DATA_WIDTH-1:0] instr;
  logic PCSrc;
  logic ResultSrc;
@@ -28,6 +28,7 @@ module f1_cpu #(
  logic [DATA_WIDTH-1:0] SrcA;
  logic [DATA_WIDTH-1:0] SrcB;
  logic [DATA_WIDTH-1:0] ReadData;
+ logic [DATA_WIDTH-1:0] ALUResult;
 
  control Control_Unit(
      .op(instr[6:0]),
@@ -38,7 +39,7 @@ module f1_cpu #(
      .ALUctrl(ALUctrl),
      .ALUsrcB(ALUSrcB),
      .ImmSrc(ImmSrc),
-     .PCsrc(PCsrc),
+     .PCsrc(PCSrc),
      .ResultSrc(ResultSrc),
      .MemWrite(MemWrite),
      .ALUsrcA(ALUSrcA),
@@ -72,7 +73,7 @@ module f1_cpu #(
      .clk(clk),
      .rst(rst),
      .ImmOp(PCTarget),
-     .PCsrc(PCsrc),
+     .PCsrc(PCSrc),
      .PC(PC)
  );
 

@@ -25,18 +25,17 @@ class Vf1_cpu___024root final : public VerilatedModule {
     CData/*0:0*/ f1_cpu__DOT__MemWrite;
     CData/*0:0*/ f1_cpu__DOT__ALUSrcA;
     CData/*0:0*/ f1_cpu__DOT__JALctrl;
-    CData/*0:0*/ f1_cpu__DOT__PCsrc;
     CData/*0:0*/ __Vclklast__TOP__clk;
+    IData/*31:0*/ f1_cpu__DOT__PC;
     IData/*31:0*/ f1_cpu__DOT__instr;
     IData/*31:0*/ f1_cpu__DOT__rd2;
     IData/*31:0*/ f1_cpu__DOT__ImmExt;
     IData/*31:0*/ f1_cpu__DOT__PCTarget;
     IData/*31:0*/ f1_cpu__DOT__SrcA;
     IData/*31:0*/ f1_cpu__DOT__SrcB;
-    IData/*31:0*/ f1_cpu__DOT____Vcellout__Program_Counter__PC;
-    IData/*31:0*/ f1_cpu__DOT____Vcellout__MyALU__out;
+    IData/*31:0*/ f1_cpu__DOT__ALUResult;
     VlUnpacked<IData/*31:0*/, 32> f1_cpu__DOT__MyRegister__DOT__registers;
-    VlUnpacked<IData/*31:0*/, 65536> f1_cpu__DOT__Instr_Mem__DOT__memory;
+    VlUnpacked<CData/*7:0*/, 4096> f1_cpu__DOT__Instr_Mem__DOT__memory;
     VlUnpacked<CData/*7:0*/, 256> f1_cpu__DOT__Data_Mem__DOT__memory;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
