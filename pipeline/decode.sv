@@ -44,5 +44,14 @@ register_file MyRegister(
     .rd2(Rd2D),
     .wd3(ResultW),
     .we3(RegWriteW)
+);
 
-)
+sign_extend Extend(
+    .immediate(InstrD[31:7]),
+    .ImmSrc(ImmSrcD),
+    .ImmExt(ImmExtD)
+);
+
+assign RdD = InstrD[11:7];
+
+endmodule
