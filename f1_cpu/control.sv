@@ -111,8 +111,8 @@ always_comb begin
         DoJump = 1;
         ImmFormat = 0;
         PCsrc = 2;
-        ALUsrcA = 1;
-        ALUsrcB = 1;
+        ALUsrcA = 0; // rd1
+        ALUsrcB = 1; // + ImmExt
         RegWrite = 1;
         MemWrite = 0;
         ResultSrc = 0;
@@ -126,8 +126,8 @@ always_comb begin
         ResultSrc = 0;
         MemWrite = 0;
         ALUMode = 7;
-        ALUsrcA = 1;
-        ALUsrcB = 0;
+        ALUsrcA = 1; // PC
+        ALUsrcB = 1; // + ImmExt
         ImmFormat = 3;
         RegWrite = 1;
     end

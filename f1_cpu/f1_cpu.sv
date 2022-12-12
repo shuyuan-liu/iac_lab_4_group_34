@@ -20,7 +20,6 @@ logic [31:0] rd1;
 logic [31:0] rd2;
 logic [31:0] Result;
 logic [31:0] ImmExt;
-logic [31:0] PCTarget;
 logic [31:0] ReturnAddr;
 logic [31:0] LoadData;
 logic [31:0] ALUResult;
@@ -68,7 +67,7 @@ program_counter ProgramCounter(
     .clk(clk),
     .rst(rst),
     .addr_offset(ImmExt),
-    .addr_absolute(Result),
+    .addr_absolute(ALUResult),
     .pc_src(PCSrc),
     .pc(PC)
 );
