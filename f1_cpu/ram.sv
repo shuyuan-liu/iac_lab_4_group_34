@@ -10,7 +10,7 @@ module ram #(
     input  logic                 clk
 );
 
-bit[DATA_WIDTH-1:0] memory[2**DATA_WIDTH-1:0];
+bit[DATA_WIDTH-1:0] memory[2**ADDR_WIDTH-1:0];
 
 always_comb begin
     dout = {memory[read_addr+3], memory[read_addr+2], memory[read_addr+1], memory[read_addr]};
