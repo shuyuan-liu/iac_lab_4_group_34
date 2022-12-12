@@ -72,15 +72,9 @@ module f1_cpu #(
  program_counter Program_Counter(
      .clk(clk),
      .rst(rst),
-     .ImmOp(PCTarget),
+     .ImmOp(ImmExt),
      .PCsrc(PCSrc),
      .PC(PC)
- );
-
- adder PCTargetAdder(
-     .i1(PC),
-     .i2(ImmExt),
-     .out(PCTarget)
  );
 
  mux_2 JAL_mux(
@@ -129,8 +123,3 @@ module f1_cpu #(
  );
 
 endmodule
-
-
-
-
-
