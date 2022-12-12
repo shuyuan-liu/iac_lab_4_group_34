@@ -41,7 +41,7 @@ always_comb begin
         else if (func3==7) begin //andi
             assign ALUctrl = 2;
         end
-    end 
+    end
 
     else if(op==23) begin //auipc
         assign JALctrl = 0;
@@ -58,7 +58,7 @@ always_comb begin
     else if(op==35) begin// store
         assign JALctrl = 0;
         assign MemWrite = 1;
-        assign ResultSrc = 0; 
+        assign ResultSrc = 0;
         assign PCsrc = 0;
         assign ALUsrcB = 0;
         assign ImmSrc = 0;
@@ -117,7 +117,6 @@ always_comb begin
         assign ALUsrcA = 0;
     end
 
-
     else if(op==103) begin //jalr
         assign JALctrl = 1;
         assign ImmSrc = 0;
@@ -153,10 +152,6 @@ always_comb begin
         assign RegWrite = 1;
         assign ALUsrcA = 0;
     end
-        
-
-    
-
 end
 
 

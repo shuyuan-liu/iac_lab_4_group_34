@@ -1,2 +1,3 @@
 f1_cpu/src/Makefile
 f1_cpu/obj_dir
+f1_cpu/f1_cpu.vcd
