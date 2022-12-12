@@ -30,6 +30,7 @@ always_comb begin
             1: ALUMode = 5; // slli
             4: ALUMode = 4; // xori
             5: ALUMode = 6; // srli
+            6: ALUMode = 3; // ori
             7: ALUMode = 2; // andi
         endcase
     end
