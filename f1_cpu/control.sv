@@ -8,7 +8,7 @@ module control (
     output logic [2:0] ALUctrl, //add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
     output logic ALUsrcB, // enable
     output logic [1:0] ImmSrc,//I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
-    output logic PCsrc, //count output
+    output logic [1:0] PCsrc, //count output
     output logic ResultSrc, // only 1 if load
     output logic MemWrite,
     output logic ALUsrcA, // only 1 for auipc, 0 otherwise
@@ -117,10 +117,10 @@ always_comb begin
         assign ALUsrcA = 0;
     end
 
-    else if(op==103) begin //jalr
+    else if(op==103) begin // jalr
         assign JALctrl = 1;
         assign ImmSrc = 0;
-        assign PCsrc = 1;
+        assign PCsrc = 2;
         assign ALUsrcB = 1;
         assign RegWrite = 1;
         assign MemWrite = 0;

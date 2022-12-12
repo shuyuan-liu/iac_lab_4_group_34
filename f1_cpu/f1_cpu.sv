@@ -6,7 +6,7 @@ module f1_cpu (
 
 logic [31:0] PC;
 logic [31:0] instr;
-logic PCSrc;
+logic [1:0] PCSrc;
 logic ResultSrc;
 logic [2:0] ALUctrl;
 logic ALUSrcB;
@@ -69,7 +69,8 @@ instr_rom Instr_Mem(
 program_counter Program_Counter(
     .clk(clk),
     .rst(rst),
-    .ImmOp(ImmExt),
+    .addr_offset(ImmExt),
+    .addr_absolute(Result),
     .PCsrc(PCSrc),
     .PC(PC)
 );

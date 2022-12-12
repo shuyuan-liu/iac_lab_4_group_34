@@ -1,5 +1,5 @@
-addi t0, x0, 32  # address of target3
-addi t1, x0, 40  # address of target4
+addi t0, x0, 0x20  # address of target3
+addi t1, x0, 0x28  # address of target4
 
 j target1   # Jump to target 1 without storing return address
 nop         # This should be skipped
