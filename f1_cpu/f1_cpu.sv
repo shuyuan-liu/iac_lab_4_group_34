@@ -82,24 +82,10 @@ mux_2 JAL_mux(
     .out(JALResult)
 );
 
-mux_2 ALU_mux_A(
-    .sel(ALUSrcA),
-    .in0(rd1),
-    .in1(PC),
-    .out(SrcA)
-);
-
-mux_2 ALU_mux_B(
-    .sel(ALUSrcB),
-    .in0(rd2),
-    .in1(ImmExt),
-    .out(SrcB)
-);
-
 alu MyALU(
     .ctrl(ALUctrl),
-    .op1(SrcA),
-    .op2(SrcB),
+    .op1(ALUsrcA ? PC : rd1),
+    .op2(ALUSrcB ? ImmExt : rd2),
     .out(ALUResult),
     .zero(Zero)
 );
@@ -113,11 +99,6 @@ ram Data_Mem(
     .clk(clk)
 );
 
-mux_2 Result_Mux(
-    .sel(ResultSrc),
-    .in0(ALUResult),
-    .in1(ReadData),
-    .out(Result)
-);
+assign Result = ResultSrc ? ReadData : ALUResult;
 
 endmodule
