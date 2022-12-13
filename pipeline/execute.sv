@@ -8,7 +8,7 @@ module execute #(
     input logic ALUSrcE,
     input logic [DATA_WIDTH-1:0] Rd1E,
     input logic [DATA_WIDTH-1:0] Rd2E,
-    input logic [DATA_WIDTH-1:0] PcE,
+    input logic [DATA_WIDTH-1:0] PCE,
     input logic [DATA_WIDTH-1:0] ImmExtE,
     output logic PCSrcE,
     output logic [DATA_WIDTH-1:0] ALUResultE,
@@ -40,9 +40,10 @@ mux_2 ALU_mux_B(
 assign WriteDataE = Rd2E;
 
 adder PCTarget_adder(
-    .in0(PcE),
-    .in1(immExtE),
+    .in0(PCE),
+    .in1(ImmExtE),
     .out(PCTargetE)
 );
 
+endmodule
 
