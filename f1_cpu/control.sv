@@ -11,7 +11,8 @@ module control (
     output logic ResultSrc, // only 1 if load
     output logic ALUsrcA, // only 1 for auipc, 0 otherwise
     input logic ResultIsZero,
-    output logic DoJump // 1 if jalr or jal, 0 otherwise
+    output logic DoJump, // 1 if jalr or jal, 0 otherwise
+    output logic[1:0] wordWidth
 );
 
 always_comb begin
@@ -59,6 +60,7 @@ always_comb begin
         ImmFormat = 0;
         RegWrite = 0;
         ALUMode = 7;
+        wordWidth = funct3[1:0];
     end
 
     // register arithmetic instructions
@@ -147,6 +149,7 @@ always_comb begin
         ALUsrcB = 0;
         ImmFormat = 0;
         RegWrite = 1;
+        wordWidth = funct3[1:0];
     end
 end
 
