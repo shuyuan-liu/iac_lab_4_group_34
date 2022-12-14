@@ -1,0 +1,94 @@
+addi, both positive and negative is normal 
+code:
+    addi s0, s1, 6
+    addi s1, s0, -1
+slli, no problem, 8 << 1 = 10 and 8 << 2 = 20 confused a little bit, but I relized it is hexadecimal
+code:
+    addi s0, s1, 4 
+    slli s1, s1, 1 
+    slli s1, s1, 2
+xori, normal
+    addi s0, s0, 0b0011
+    xori s0, s0, 0b0101
+    
+srli, normal, keep note in ASM, number in base 10, so 0d20 = 0x14
+    addi s0, s0, 20
+    srli s0, s0, 1
+    srli s0, s0, 1
+andi, matches the truth table
+    addi s0, s0, 0b0011
+    addi s1, s0, 0b0101
+auipc, normal, note that if you end code with auipc, wd3 will permanently = PC
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    auipc s1, 0xFF #0xFF
+    nop
+
+sw
+
+add, normal
+    addi s0, s0, 5
+    addi s1, s1, 6
+    add s3, s0, s1
+    addi s0, s0, -7 # s0 = -2
+    add s3, s3, s0
+
+sub, normal
+    addi s0, s0, 5
+    addi s1, s1, 6
+    sub s3, s0, s1
+    addi s0, s0, -7 # s0 = -2
+    sub s3, s3, s0
+or, result is 0111, matches the truth table
+    addi s0, s0, 0b0011
+    addi s1, s1, 0b0101
+    or s3, s0, s1
+and, result is 0001, matches the truth table
+    addi s0, s0, 0b0011
+    addi s1, s1, 0b0101
+    and s3, s0, s1
+lui
+    lui s1, 0xFF
+    lui s0, 0xF
+    sub s3, s1, s0
+beq, no problem, if equal, jump, if not, don't jump
+    addi s0, s0, 0xFF
+    addi s1, s1, 0xFF
+    beq s0, s1, eq
+    addi s3, s3, 0x2
+    eq:
+        addi s4, s0, 1
+    addi s0, s0, 0xFF
+    addi s1, s1, 0xFE
+    beq s0, s1, noeq
+    addi s3, s3, 0x2 # this line is skipped as s0 = 1FE and s1 = 1FD
+    noeq:
+        addi s4, s0, 1
+bne, no problem, if not equal, jump, if equal, don't jump
+    addi s0, s0, 0xFF
+    addi s1, s1, 0xFF
+    bne s0, s1, eq
+    addi s3, s3, 0x2 # this line is skipped as s0 = FF and s1 = FF
+    eq:
+        addi s4, s0, 1
+    addi s0, s0, 0xFF
+    addi s1, s1, 0xFE
+    bne s0, s1, noeq
+    addi s3, s3, 0x2 
+    noeq:
+        addi s4, s0, 1
+jalr
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    addi s0, s0, 1
+    jalr 
+
+
+jal
+
+lw
