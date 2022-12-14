@@ -2,70 +2,88 @@ module pipeline #(
     parameter ADDR_WIDTH = 5,
               DATA_WIDTH = 32
 )(
-    input logic clk
+    input logic clk,
+    input logic rst
 );
 
-logic PCSrcE;
-logic [DATA_WIDTH-1:0] PCTargetE;
-logic [DATA_WIDTH-1:0] InstrF;
-logic [DATA_WIDTH-1:0] PCF;
-logic [DATA_WIDTH-1:0] PCPlus4F;
-logic [DATA_WIDTH-1:0] InstrD;
-logic [DATA_WIDTH-1:0] ResultW;
-logic [ADDR_WIDTH-1:0] RdW;
-logic RegWriteW;
-logic REgWriteD;
-logic [1:0] ResultSrcD;
-logic MemWriteD;
-logic JumpD;
-logic BranchD;
-logic [2:0] ALUControlD;
-logic ALUSrcD;
-logic [DATA_WIDTH-1:0] Rd1D;
-logic [DATA_WIDTH-1:0] Rd2D;
-logic [ADDR_WIDTH-1:0] RdD;
-logic [DATA_WIDTH-1:0] ImmExtD;
-logic [DATA_WIDTH-1:0] PCD;
-logic [DATA_WIDTH-1:0] PCPlus4D;
-logic JumpE;
-logic BranchE;
-logic [2:0] ALUControlE;
-logic ALUSrcE;
-logic [DATA_WIDTH-1:0] Rd1E;
-logic [DATA_WIDTH-1:0] Rd2E;
-logic [DATA_WIDTH-1:0] PCE;
-logic [DATA_WIDTH-1:0] ImmExtE;
-logic [DATA_WIDTH-1:0] ALUResultE;
-logic [DATA_WIDTH-1:0] WriteDataE;
-logic RegWriteE;
-logic [1:0] ResultSrcE;
-logic MemWriteE;
-logic [DATA_WIDTH-1:0] RdE;
-logic [DATA_WIDTH-1:0] PCPlus4E;
-logic [DATA_WIDTH-1:0] ALUResultM;
-logic [DATA_WIDTH-1:0] WriteDataM;
-logic MemWriteM;
-logic [DATA_WIDTH-1:0] ReadDataM;
-logic RegWriteM;
-logic [1:0] ResultSrcM;
-logic [DATA_WIDTH-1:0] RdM;
-logic [DATA_WIDTH-1:0] PCPlus4M;
-logic [1:0] ResultSrcW;
-logic [DATA_WIDTH-1:0] ALUResultW;
-logic [DATA_WIDTH-1:0] ReadDataW;
-logic [DATA_WIDTH-1:0] PCPlus4W;
+
+logic [DATA_WIDTH-1:0] InstrF;//instr in fetch
+logic [DATA_WIDTH-1:0] PCF;//in fetch
+logic [DATA_WIDTH-1:0] PCPlus4F;//fetch
+
+logic [DATA_WIDTH-1:0] InstrD;//decode
+logic REgWriteD;//in decode
+logic [1:0] ResultSrcD;//decode
+logic MemWriteD;//decode
+logic JumpD;//decode
+logic BranchD;//decode
+logic [2:0] ALUControlD;//decode
+logic ALUSrcD;//decode
+logic [DATA_WIDTH-1:0] Rd1D;//decode
+logic [DATA_WIDTH-1:0] Rd2D;//decode
+logic [ADDR_WIDTH-1:0] RdD;//decode
+logic [DATA_WIDTH-1:0] ImmExtD;//decode
+logic [DATA_WIDTH-1:0] PCD;//decode
+logic [DATA_WIDTH-1:0] PCPlus4D;//decode
+logic JalSrcD;
+logic [1:0] WordWidthD;
+logic LoadSignExtD;
+
+logic JumpE;//execute
+logic BranchE;//execute
+logic [2:0] ALUControlE;//execute
+logic ALUSrcE;//execute
+logic [DATA_WIDTH-1:0] Rd1E;//execute
+logic [DATA_WIDTH-1:0] Rd2E;//execute
+logic [DATA_WIDTH-1:0] PCE;//execute
+logic [DATA_WIDTH-1:0] ImmExtE;//execute
+logic [DATA_WIDTH-1:0] ALUResultE;//execute
+logic [DATA_WIDTH-1:0] WriteDataE;//execute
+logic RegWriteE;//execute
+logic [1:0] ResultSrcE;//execute
+logic MemWriteE;//execute
+logic [DATA_WIDTH-1:0] RdE;//execute
+logic [DATA_WIDTH-1:0] PCPlus4E;//execute
+logic JalSrcE;
+logic [1:0] WordWidthE;
+logic LoadSignExtE;
+logic PCSrcE;//from execute to fetch
+logic [DATA_WIDTH-1:0] PCTargetE;//from execute to fetch
+
+logic [DATA_WIDTH-1:0] ALUResultM;//memory
+logic [DATA_WIDTH-1:0] WriteDataM;//memory
+logic MemWriteM;//memory
+logic [DATA_WIDTH-1:0] ReadDataM;//memory
+logic RegWriteM;//memory
+logic [1:0] ResultSrcM;//memory
+logic [DATA_WIDTH-1:0] RdM;//memory
+logic [DATA_WIDTH-1:0] PCPlus4M;//memory
+logic [1:0] WordWidthM;
+logic LoadSignExtM;
+
+logic [1:0] ResultSrcW;//writeback
+logic [DATA_WIDTH-1:0] ALUResultW;//wrieback
+logic [DATA_WIDTH-1:0] ReadDataW;//writeback
+logic [DATA_WIDTH-1:0] PCPlus4W;//writeback
+logic [DATA_WIDTH-1:0] ResultW;//from writeback to decode
+logic [ADDR_WIDTH-1:0] RdW;//from writeback to decode
+logic RegWriteW;//from writeback to decode
 
 
 
-always_ff @(negedge clk) begin
+always_ff @( negedge clk) begin//register between fetch and decode
     InstrD <= InstrF;
     PCD <= PCF;
     PCPlus4D <= PCPlus4F;
+end
+
+always_ff @(negedge clk) begin//decode->execute
     RegWriteE <= RegWriteD;
     ResultSrcE <= ResultSrcD;
     MemWriteE <= MemWriteD;
     JumpE <= JumpD;
     BranchE <= BranchD;
+    JalSrcE <= JalSrcD;
     ALUControlE <= ALUControlD;
     ALUSrcE <= ALUSrcD;
     Rd1E <= Rd1D;
@@ -74,13 +92,23 @@ always_ff @(negedge clk) begin
     RdE <= RdD;
     ImmExtE <= ImmExtD;
     PCPlus4E <= PCPlus4D;
+    WordWidthE <= WordWidthD;
+    LoadSignExtE <= LoadSignExtD;
+end
+
+always_ff @(negedge clk) begin//execute->memory
     RegWriteM <= RegWriteE;
     ResultSrcM <= ResultSrcE;
     MemWriteM <= MemWriteE;
     ALUResultM <= ALUResultE;
     WriteDataM <= WriteDataE;
     RdM <= RdE;
-    PCPlus4m <= PCPlus4E;
+    PCPlus4M <= PCPlus4E;
+    WordWidthM <= WordWidthE;
+    LoadSignExtM <= LoadSignExtE;
+end
+
+always_ff @(negedge clk) begin//memory->writeback
     RegWriteW <= RegWriteM;
     ResultSrcW <= ResultSrcM;
     ALUResultW <= ALUResultM;
@@ -88,6 +116,7 @@ always_ff @(negedge clk) begin
     PCPlus4W <= PCPlus4M;
     RdW <= RdM;
 end
+
 
 fetch Fetch_block(
     .clk(clk),
@@ -113,7 +142,10 @@ decode Decode_block(
     .Rd1D(Rd1D),
     .Rd2D(Rd2D),
     .RdD(RdD),
-    .ImmExtD(ImmExtD)
+    .ImmExtD(ImmExtD),
+    .WordWidthD(WordWidthD),
+    .LoadSignExtD(LoadSignExtD),
+    .JalSrcD(JalSrcD)
 );
 
 execute Execute_block(
@@ -128,7 +160,8 @@ execute Execute_block(
     .PCSrcE(PCSrcE),
     .ALUResultE(ALUResultE),
     .WriteDataE(WriteDataE),
-    .PCTargetE(PCTargetE)
+    .PCTargetE(PCTargetE),
+    .JalSrcE(JalSrcE)
 );
 
 memory Memory_block(
@@ -136,7 +169,9 @@ memory Memory_block(
     .ALUResultM(ALUResultM),
     .WriteDataM(WriteDataM),
     .MemWriteM(MemWriteM),
-    .ReadDataM(ReadDataM)
+    .ReadDataM(ReadDataM),
+    .WordWidthM(WordWidthM),
+    .LoadSignExtM(LoadSignExtM)
 );
 
 writeback Writeback_block(

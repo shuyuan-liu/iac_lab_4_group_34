@@ -1,150 +1,145 @@
 module control (
-    input logic[6:0] opcode,
-    input logic[2:0] funct3,
-    input logic[6:0] funct7,
-    output logic RegWrite,
-    output logic MemWrite,
-    output logic[2:0] ALUMode, // add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
-    output logic ALUsrcB,
-    output logic[1:0] ImmFormat,// I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
-    output logic[1:0] PCsrc,
-    output logic ResultSrc, // only 1 if load
-    output logic ALUsrcA, // only 1 for auipc, 0 otherwise
-    input logic ResultIsZero,
-    output logic DoJump // 1 if jalr or jal, 0 otherwise
+    // interface signals
+    input logic [6:0] op,
+    input logic [2:0] funct3,
+    input logic [6:0] funct7,
+    output logic RegWriteD, //clk
+    output logic [2:0] ALUControlD, //add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
+    output logic ALUSrcD, // enable
+    output logic [1:0] ImmSrcD,//I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
+    output logic BranchD, //count output
+    output logic [1:0] ResultSrcD, // only 1 if load
+    output logic MemWriteD,
+    output logic JumpD,
+    output logic[1:0] WordWidthD,
+    output logic LoadSignExtD,
+    output logic JalSrcD
 );
+// indicates that this is a clocked circuit
 
 always_comb begin
-     // arithmetic instructions with immediate
-    if (opcode == 'h13) begin
-        DoJump = 0;
-        ALUsrcA = 0;
-        ALUsrcB = 1; // immediate
-        ImmFormat = 0; // I-type
-        RegWrite = 1;
-        ResultSrc = 0;
-        PCsrc = 0;
-        MemWrite = 0;
+    if(op==19) begin
+        assign JumpD = 0;
+        assign ALUSrcD = 1; //immediate
+        assign ImmSrcD = 0; //I-type
+        assign RegWriteD = 1; // alu
+        assign ResultSrcD = 0;
+        assign BranchD = 0;
+        assign MemWriteD = 0;
+        assign JalSrcD = 0;
         case (funct3)
-            0: ALUMode = 0; // addi
-            1: ALUMode = 5; // slli
-            4: ALUMode = 4; // xori
-            5: ALUMode = 6; // srli
-            6: ALUMode = 3; // ori
-            7: ALUMode = 2; // andi
+            0: ALUControlD = 0;// addi
+            1: ALUControlD = 5;//slli
+            4: ALUControlD = 4;//xori
+            5: ALUControlD = 6;//srli
+            6: ALUControlD = 3;//ori
+            7: ALUControlD = 2;//andi
+        endcase
+    end 
+
+
+    else if(op==35) begin// store
+        assign JumpD = 0;
+        assign MemWriteD = 1;
+        assign ResultSrcD = 0; 
+        assign BranchD = 0;
+        assign ALUSrcD = 0;
+        assign ImmSrcD = 0;
+        assign RegWriteD = 0;
+        assign ALUControlD = 7;
+        assign WordWidthD = funct3[1:0];
+        assign JalSrcD = 0;
+    end
+
+    else if(op==51) begin
+        assign JumpD = 0;
+        assign ALUSrcD = 0; // RD2
+        assign ImmSrcD = 0; //R-type
+        assign RegWriteD = 1; // alu
+        assign ResultSrcD = 0;
+        assign BranchD = 0;
+        assign MemWriteD = 0;
+        assign JalSrcD = 0;
+        case (funct3)
+             0: ALUControlD = funct7[5] ? 1 : 0;
+             1: ALUControlD = 5;
+             4: ALUControlD = 4;
+             5: ALUControlD = 6;
+             6: ALUControlD = 3;
+             7: ALUControlD = 2;
         endcase
     end
 
-    // auipc
-    else if (opcode == 'h17) begin
-        DoJump = 0;
-        PCsrc = 0;
-        ALUsrcA = 1;
-        ALUsrcB = 1;
-        ImmFormat = 2;
-        RegWrite = 1;
-        ResultSrc = 0;
-        MemWrite = 0;
-        ALUMode = 0; // add upper immediate
+    else if(op==55) begin // lui
+        assign JumpD = 0;
+        assign ImmSrcD = 2;
+        assign RegWriteD = 1;
+        assign ALUSrcD = 1;
+        assign BranchD = 0;
+        assign ResultSrcD = 0;
+        assign MemWriteD = 0;
+        assign ALUControlD = 7;
+        assign JalSrcD = 0;
     end
 
-    // store
-    else if (opcode == 'h23) begin
-        DoJump = 0;
-        MemWrite = 1;
-        ResultSrc = 0;
-        PCsrc = 0;
-        ALUsrcA = 0;
-        ALUsrcB = 0;
-        ImmFormat = 0;
-        RegWrite = 0;
-        ALUMode = 7;
+    else if(op==99) begin
+        assign JumpD = 0;
+        assign ALUControlD = 1; // bne, beq need minus
+        assign BranchD = 1;
+        assign ResultSrcD = 0;
+        assign MemWriteD = 0;
+        assign ALUSrcD = 0;
+        assign ImmSrcD = 1;
+        assign RegWriteD = 0;
+        assign JalSrcD = 0;
     end
 
-    // register arithmetic instructions
-    else if (opcode == 'h33) begin
-        DoJump = 0;
-        ALUsrcA = 0;
-        ALUsrcB = 0; // RD2
-        ImmFormat = 0; // R-type
-        RegWrite = 1; // alu
-        ResultSrc = 0;
-        PCsrc = 0;
-        MemWrite = 0;
-        if (funct3 == 0)
-            if (funct7[5] == 0) ALUMode = 0; // add
-            else ALUMode = 1; // sub
-        else if (funct3 == 6) ALUMode = 3; // or
-        else if (funct3 == 7) ALUMode = 2; // and
+
+    else if(op==103) begin //jalr
+        assign JumpD = 1;
+        assign ImmSrcD = 0;
+        assign BranchD = 0;
+        assign ALUSrcD = 1;
+        assign RegWriteD = 1;
+        assign MemWriteD = 0;
+        assign ResultSrcD = 2;
+        assign ALUControlD = 0;
+        assign JalSrcD = 1;
     end
 
-    // lui
-    else if (opcode == 'h37) begin
-        DoJump = 0;
-        ImmFormat = 2;
-        RegWrite = 1;
-        ALUsrcA = 0;
-        ALUsrcB = 1;
-        PCsrc = 0;
-        ResultSrc = 0;
-        MemWrite = 0;
-        ALUMode = 7;
+    else if(op==111) begin // jal
+        assign JumpD = 1;
+        assign BranchD = 0;
+        assign ResultSrcD = 2;
+        assign MemWriteD = 0;
+        assign ALUControlD = 7;
+        assign ALUSrcD = 0;
+        assign ImmSrcD = 3;
+        assign RegWriteD = 1;
+        assign JalSrcD = 1;
     end
 
-    // branch
-    else if (opcode == 'h63) begin
-        DoJump = 0;
-        ALUMode = 1; // bne, beq need minus
-        if (funct3 == 0) // beq
-            PCsrc = ResultIsZero ? 1 : 0;
-        else if (funct3 == 1) // bne
-            PCsrc = ResultIsZero ? 0 : 1;
-        ResultSrc = 0;
-        MemWrite = 0;
-        ALUsrcA = 0;
-        ALUsrcB = 0;
-        ImmFormat = 1;
-        RegWrite = 0;
+    else if(op==3) begin //load
+        assign JumpD = 0;
+        assign BranchD = 0;
+        assign ResultSrcD = 1;
+        assign MemWriteD = 0;
+        assign ALUControlD = 7;
+        assign ALUSrcD = 0;
+        assign ImmSrcD = 0;
+        assign RegWriteD = 1;
+        assign WordWidthD = funct3[1:0];
+        assign LoadSignExtD = !funct3[2];
+        assign JalSrcD = 0;
     end
+        
 
-    // jalr
-    else if (opcode == 'h67) begin
-        DoJump = 1;
-        ImmFormat = 0;
-        PCsrc = 2;
-        ALUsrcA = 0; // rd1
-        ALUsrcB = 1; // + ImmExt
-        RegWrite = 1;
-        MemWrite = 0;
-        ResultSrc = 0;
-        ALUMode = 0; // add
-    end
+    
 
-    // jal
-    else if(opcode == 'h6F) begin
-        DoJump = 1;
-        PCsrc = 1;
-        ResultSrc = 0;
-        MemWrite = 0;
-        ALUMode = 7;
-        ALUsrcA = 1; // PC
-        ALUsrcB = 1; // + ImmExt
-        ImmFormat = 3;
-        RegWrite = 1;
-    end
-
-    // load
-    else if(opcode == 'h03) begin
-        DoJump = 0;
-        PCsrc = 0;
-        ResultSrc = 1;
-        MemWrite = 0;
-        ALUMode = 7;
-        ALUsrcA = 0;
-        ALUsrcB = 0;
-        ImmFormat = 0;
-        RegWrite = 1;
-    end
 end
+
+
+
+
 
 endmodule

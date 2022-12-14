@@ -8,10 +8,9 @@ module fetch#(
     output logic [DATA_WIDTH-1:0] InstrF,
     output logic [DATA_WIDTH-1:0] PCF,
     output logic [DATA_WIDTH-1:0] PCPlus4F
-)
+);
 
 logic [DATA_WIDTH-1:0] PCF0;
-logic [DATA_WIDTH-1:0] PCF;
 
 mux_2 PC_mux(
     .sel(PCSrcE),

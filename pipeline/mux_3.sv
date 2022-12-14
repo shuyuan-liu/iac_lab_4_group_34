@@ -9,15 +9,12 @@ module mux_3 #(
 );
 
 always_comb begin
-    if(sel == 0){
-        assign out = in0;
-    }
-    else if(sel==1){
-        assign out = in1;
-    }
-    else{
-        assign out = in2;
-    }
+    if(sel == 0)
+        out = in0;
+    else if(sel==1)
+        out = in1;
+    else
+        out = in2;
 end
     
 endmodule

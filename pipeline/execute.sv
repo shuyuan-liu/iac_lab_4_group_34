@@ -13,10 +13,12 @@ module execute #(
     output logic PCSrcE,
     output logic [DATA_WIDTH-1:0] ALUResultE,
     output logic [DATA_WIDTH-1:0] WriteDataE,
-    output logic [DATA_WIDTH-1:0] PCTargetE
+    output logic [DATA_WIDTH-1:0] PCTargetE,
+    input logic JalSrcE
 );
  logic ZeroE;
  logic [DATA_WIDTH-1:0] SrcBE;
+ logic [DATA_WIDTH-1:0] PCAdderResult;
 
  
  assign PCSrcE = JumpE | (BranchE & ZeroE);
@@ -42,6 +44,13 @@ assign WriteDataE = Rd2E;
 adder PCTarget_adder(
     .in0(PCE),
     .in1(ImmExtE),
+    .out(PCAdderResult)
+);
+
+mux_2 Jal_mux(
+    .sel(JalSrcE),
+    .in0(PCTargetE),
+    .in1(PCAdderResult),
     .out(PCTargetE)
 );
 

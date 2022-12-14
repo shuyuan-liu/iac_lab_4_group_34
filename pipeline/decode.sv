@@ -1,5 +1,5 @@
 module decode #(
-    paramter ADDR_WIDTH = 5,
+    parameter ADDR_WIDTH = 5,
              DATA_WIDTH = 32
 )(
     input logic [DATA_WIDTH-1:0] InstrD,
@@ -16,15 +16,18 @@ module decode #(
     output logic [DATA_WIDTH-1:0] Rd1D,
     output logic [DATA_WIDTH-1:0] Rd2D,
     output logic [ADDR_WIDTH-1:0] RdD,
-    output logic [DATA_WIDTH-1:0] ImmExtD
+    output logic [DATA_WIDTH-1:0] ImmExtD,
+    output logic [1:0] WordWidthD,
+    output logic LoadSignExtD,
+    output logic JalSrcD
 );
 
  logic [1:0] ImmSrcD;
 
-control_pip Control_Unit(
+control Control_Unit(
     .op(InstrD[6:0]),
     .funct3(InstrD[14:12]),
-    .funct7_5(InstrD[30]),
+    .funct7(InstrD[31:25]),
     .RegWriteD(RegWriteD),
     .ResultSrcD(ResultSrcD),
     .MemWriteD(MemWriteD),
@@ -32,7 +35,10 @@ control_pip Control_Unit(
     .BranchD(BranchD),
     .ALUControlD(ALUControlD),
     .ALUSrcD(ALUSrcD),
-    .ImmSrcD(ImmSrcD)
+    .ImmSrcD(ImmSrcD),
+    .WordWidthD(WordWidthD),
+    .LoadSignExtD(LoadSignExtD),
+    .JalSrcD(JalSrcD)
 );
 
 register_file MyRegister(
