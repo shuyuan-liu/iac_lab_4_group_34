@@ -51,8 +51,8 @@ always_comb begin
         assign JalSrcD = 0;
     end
 
-    else if(op==51) begin
-        assign JumpD = 0;
+    else if(op==51) begin // normal arthmetics
+        assign JumpD = 0; 
         assign ALUSrcD = 0; // RD2
         assign ImmSrcD = 0; //R-type
         assign RegWriteD = 1; // alu

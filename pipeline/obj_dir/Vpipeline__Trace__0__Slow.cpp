@@ -444,7 +444,7 @@ VL_ATTR_COLD void Vpipeline___024root__trace_full_sub_0(Vpipeline___024root* vlS
     bufp->fullBit(oldp+108,(vlSelf->pipeline__DOT__REgWriteD));
     bufp->fullBit(oldp+109,(vlSelf->pipeline__DOT__Decode_block__DOT__clk));
     bufp->fullIData(oldp+110,(0xcU),32);
-    bufp->fullIData(oldp+111,(0xbfc00000U),32);
+    bufp->fullIData(oldp+111,(0U),32);
     bufp->fullIData(oldp+112,(4U),32);
     bufp->fullIData(oldp+113,(0x11U),32);
     bufp->fullIData(oldp+114,(8U),32);

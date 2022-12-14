@@ -358,10 +358,15 @@ VL_ATTR_COLD void Vpipeline___024root___initial__TOP__0(Vpipeline___024root* vlS
     if (false && vlSelf) {}  // Prevent unused
     Vpipeline__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vpipeline___024root___initial__TOP__0\n"); );
+    // Init
+    VlWide<3>/*95:0*/ __Vtemp_h6f8c55de__0;
     // Body
-    VL_READMEM_N(true, 8, 4096, 3217031168, std::string{"f1.s.hex"}
+    __Vtemp_h6f8c55de__0[0U] = 0x2e686578U;
+    __Vtemp_h6f8c55de__0[1U] = 0x73742e73U;
+    __Vtemp_h6f8c55de__0[2U] = 0x7465U;
+    VL_READMEM_N(true, 8, 4096, 0, VL_CVT_PACK_STR_NW(3, __Vtemp_h6f8c55de__0)
                  ,  &(vlSelf->pipeline__DOT__Fetch_block__DOT__Instr_rom__DOT__memory)
-                 , 0xbfc00000U, ~0ULL);
+                 , 0U, ~0ULL);
 }
 
 VL_ATTR_COLD void Vpipeline___024root___eval_initial(Vpipeline___024root* vlSelf) {
