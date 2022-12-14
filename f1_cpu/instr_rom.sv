@@ -8,7 +8,7 @@ module instr_rom #(
 logic[7:0] memory[2**ADDR_WIDTH-1:0];
 
 initial begin
-    $readmemh("jump_test.s.hex", memory);
+    $readmemh("f1.s.hex", memory);
 end
 
 assign dout = {memory[addr+3], memory[addr+2], memory[addr+1], memory[addr]};

@@ -96,9 +96,9 @@ always_comb begin
         DoJump = 0;
         ALUMode = 1; // bne, beq need minus
         if (funct3 == 0) // beq
-            PCsrc = ResultIsZero;
+            PCsrc = ResultIsZero ? 1 : 0;
         else if (funct3 == 1) // bne
-            PCsrc = !ResultIsZero;
+            PCsrc = ResultIsZero ? 0 : 1;
         ResultSrc = 0;
         MemWrite = 0;
         ALUsrcA = 0;
