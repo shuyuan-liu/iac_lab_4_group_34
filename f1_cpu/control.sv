@@ -62,7 +62,7 @@ always_comb begin
         RegWrite = 0;
         ALUMode = 7;
         wordWidth = funct3[1:0];
-        loadSignExt = !funct3[2];
+        
     end
 
     // register arithmetic instructions
@@ -152,6 +152,7 @@ always_comb begin
         ImmFormat = 0;
         RegWrite = 1;
         wordWidth = funct3[1:0];
+        loadSignExt = !funct3[2];
     end
 end
 
