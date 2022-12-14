@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     tfp->open("f1_cpu.vcd");
 
     top->clk = 0;
-    for (int cycle = 0; cycle < 10000; cycle++) {
+    for (int cycle = 0; cycle < 3000; cycle++) {
         top->rst = (cycle == 0);
         for (int tick = 0; tick < 2; tick++){
             top->eval();
