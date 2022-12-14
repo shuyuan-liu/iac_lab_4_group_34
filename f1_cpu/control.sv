@@ -71,11 +71,14 @@ always_comb begin
         ResultSrc = 0;
         PCsrc = 0;
         MemWrite = 0;
-        if (funct3 == 0)
-            if (funct7[5] == 0) ALUMode = 0; // add
-            else ALUMode = 1; // sub
-        else if (funct3 == 6) ALUMode = 3; // or
-        else if (funct3 == 7) ALUMode = 2; // and
+        case (funct3)
+            0: ALUMode = funct7[5] ? 1 : 0; // - / +
+            1: ALUMode = 5;                 // <<
+            4: ALUMode = 4;                 // XOR
+            5: ALUMode = 6;                 // >>
+            6: ALUMode = 3;                 // OR
+            7: ALUMode = 2;                 // AND
+        endcase
     end
 
     // lui
