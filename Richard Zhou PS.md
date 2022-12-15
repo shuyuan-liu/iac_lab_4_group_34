@@ -1,9 +1,14 @@
+Contribution I made: 
+1. Basic task: Updated RISC-V:   control.sv, sign_extend.sv, instrmem.sv(initial version)                    
+2. Streched Goal 1 pipeline: updated code: control_pip.sv, sign_extend_pip.sv, memory.sv (memory part of the 5 stages in pipeline)
+
+
 
 First version of control.sv and sign extend
 
 1. Extension: Add bits to 8. If opsitive signed, 00000. If negative, FFFFF.
 2. RegWrite: 1 for add  (op = 19, 51), 0 for branch,
-3. ALUCtrl: 0 sum two number, 1 minus. If =0, EQ =1.
+3. ALUCtrl: 0 sum two number, 1 minus. If the result of minus=0, EQ =1.
 4. ALUSrc: 0 normal, 1 immediate.
 5. OP=51 R-type.
 6. Imm Src: sign extend?
