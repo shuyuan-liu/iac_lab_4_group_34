@@ -1,18 +1,17 @@
-module control #(
-    // interface signals
+module control (
     input logic [6:0] op,
     input logic [2:0] funct3,
     input logic func7_5,
     input logic Zero,
-    output logic RegWrite, //clk
-    output logic [2:0] ALUctrl, //reset
-    output logic ALUsrc, // enable
-    output logic [1:0] ImmSrc,//increment
-    output logic PCsrc, //count output
+    output logic RegWrite, 
+    output logic [2:0] ALUctrl, 
+    output logic ALUsrc, 
+    output logic [1:0] ImmSrc,
+    output logic PCsrc, 
     output logic ResultSrc,
     output logic MemWrite
 );
-// indicates that this is a clocked circuit
+
 
 always_comb begin
     if(op==19) begin
