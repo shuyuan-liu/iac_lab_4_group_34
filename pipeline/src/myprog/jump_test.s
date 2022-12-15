@@ -8,12 +8,7 @@ nop
 nop
 j target1   # Jump to target 1 without storing return address JAL C
 nop         # This should be skipped
-nop
-nop
-nop         # This should be skipped
-nop
-nop
-target1: # 24
+target1:  # 24
 nop
 nop
 nop

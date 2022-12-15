@@ -10,7 +10,7 @@
 .equ BREAK_INTERVAL, 50    # The time to wait after lights go off before starting new cycle
 .equ LFSR_MASK, 0x000F     # The bits to keep in the LFSR (e.g. 0x3F = 6-bit LFSR); other bits are discarded after each shift
 .equ LFSR_TAPS, 0x0009     # Feedback term for the LFSR. For maximal-length taps see http://users.ece.cmu.edu/~koopman/lfsr/
-
+nop
 li a0, 0    # Turn off all lights to start with
 li s0, 1    # Initialise the LFSR with seed 1
 li s1, 0xFF # Constant 0xFF used in comparisons
@@ -21,36 +21,63 @@ main_loop:
 
         # Turn on one more light
         slli t0, a0, 1
+        nop # writeback new t0 and use it requires 3 cycles, from decode to writeback
+        nop
+        nop
         ori a0, t0, 1
 
         # Wait before turning on the next light
         li a2, LIGHT_UP_INTERVAL
-        jal delay
-
+        #jal delay
+        nop
+        nop
+        nop
+        nop
         # Exit loop when all lights are on
         bne a0, s1, light_up_loop
-
+        nop
+        nop
+        nop
+        nop
     # Wait a randem amount of time, then turn all lights off
-    jal rand
-    mv a2, a1
-    jal delay
+    #jal rand
+    #mv a2, a1
+    #jal delay
+    
 
     # Random wait done; turn all lights off
     li a0, 0
 
     # Wait before starting the next light cycle
     li a2, BREAK_INTERVAL
-    jal delay
-
+    #jal delay
+    nop
+    nop
+    nop
+    nop
     j main_loop
-
+    nop
+    nop
+    nop
+    nop
 # Delay (2x) a specified number of cycles passed in a2
 delay:
     # t0: delay counter
     mv t0, a2
+    nop
+    nop
+    nop
+    nop
     delay_loop:
         addi t0, t0, -1
+        nop
+        nop
+        nop
+        nop
         bnez t0, delay_loop
+        nop
+        nop
+        nop
     ret
 
 # Generate a 8-bit random number using a linear feedback shift register
@@ -67,24 +94,70 @@ rand:
     andi t0, s0, LFSR_TAPS
 
     srli t2, t0, 16
+    nop
+    nop
+    nop
     xor t0, t2, t0
+    nop
+    nop
+    nop
     srli t2, t0, 8
+    nop
+    nop
+    nop
     xor t0, t2, t0
+    nop
+    nop
+    nop
     srli t2, t0, 4
+    nop
+    nop
+    nop
     xor t0, t2, t0
+    nop
+    nop
+    nop
     srli t2, t0, 2
+    nop
+    nop
+    nop
     xor t0, t2, t0
+    nop
+    nop
+    nop
     srli t2, t0, 1
+    nop
+    nop
+    nop
     xor t0, t2, t0
+    nop
+    nop
+    nop
 
     andi t1, t0, 0x1
+    nop
+    nop
+    nop
 
     # Shift the register and put in the new lowest bit from t1
     slli s0, s0, 1
+    nop
+    nop
+    nop
     andi s0, s0, LFSR_MASK
+    nop
+    nop
+    nop
     or s0, s0, t1
+    nop
+    nop
+    nop
 
     # Return the newly generated value through a1
     mv a1, s0
 
     ret
+    nop
+    nop
+    nop
+    nop

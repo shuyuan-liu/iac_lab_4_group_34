@@ -9,7 +9,7 @@ module instr_rom #(
 logic[7:0] memory[BASE_ADDR+(2**ADDR_WIDTH)-1:BASE_ADDR];
 
 initial begin
-    $readmemh("test.s.hex", memory, BASE_ADDR);
+    $readmemh("f1.s.hex", memory, BASE_ADDR);
 end
 
 assign dout = {memory[addr+3], memory[addr+2], memory[addr+1], memory[addr]};
