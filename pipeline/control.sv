@@ -5,13 +5,13 @@ module control (
     output logic RegWriteD, 
     output logic [2:0] ALUControlD, //add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
     output logic ALUSrcD,
-    output logic [1:0] ImmSrcD,//I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
+    output logic [1:0] ImmSrcD, //I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
     output logic BranchD, 
     output logic [1:0] ResultSrcD, // only 1 if load
     output logic MemWriteD,
     output logic JumpD,
-    output logic[1:0] WordWidthD,
-    output logic LoadSignExtD,
+    output logic[1:0] WordWidthD, //0 for byte, 1 for half word, 2 for word, connected to data memory
+    output logic LoadSignExtD, // 1 for sign load, 0 for unsign load
     output logic JalSrcD
 );
 
