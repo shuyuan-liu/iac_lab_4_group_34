@@ -1,3 +1,5 @@
+#!/bin/sh
+
 rm -rf obj_dir
 rm -f f1_cpu.vcd
 
