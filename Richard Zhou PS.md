@@ -1,6 +1,6 @@
 Contribution I made: 
 1. Basic task: Updated RISC-V:   control.sv, sign_extend.sv, instrmem.sv(initial version)                    
-2. Streched Goal 1 pipeline: updated code: control_pip.sv, sign_extend_pip.sv, memory.sv (memory part of the 5 stages in pipeline)
+2. Streched Goal 1 pipeline: updated code: control.sv, sign_extend.sv, memory.sv (memory part of the 5 stages in pipeline)
 
 
 
