@@ -3,7 +3,8 @@ module pipeline #(
               DATA_WIDTH = 32
 )(
     input logic clk,
-    input logic rst
+    input logic rst,
+    output logic [DATA_WIDTH-1:0] a0,
 );
 
 
@@ -12,7 +13,7 @@ logic [DATA_WIDTH-1:0] PCF;//in fetch
 logic [DATA_WIDTH-1:0] PCPlus4F;//fetch
 
 logic [DATA_WIDTH-1:0] InstrD;//decode
-logic REgWriteD;//in decode
+logic RegWriteD;//in decode
 logic [1:0] ResultSrcD;//decode
 logic MemWriteD;//decode
 logic JumpD;//decode
@@ -42,7 +43,7 @@ logic [DATA_WIDTH-1:0] WriteDataE;//execute
 logic RegWriteE;//execute
 logic [1:0] ResultSrcE;//execute
 logic MemWriteE;//execute
-logic [DATA_WIDTH-1:0] RdE;//execute
+logic [4:0] RdE;//execute
 logic [DATA_WIDTH-1:0] PCPlus4E;//execute
 logic JalSrcE;
 logic [1:0] WordWidthE;
@@ -56,7 +57,7 @@ logic MemWriteM;//memory
 logic [DATA_WIDTH-1:0] ReadDataM;//memory
 logic RegWriteM;//memory
 logic [1:0] ResultSrcM;//memory
-logic [DATA_WIDTH-1:0] RdM;//memory
+logic [4:0] RdM;//memory
 logic [DATA_WIDTH-1:0] PCPlus4M;//memory
 logic [1:0] WordWidthM;
 logic LoadSignExtM;
@@ -66,12 +67,12 @@ logic [DATA_WIDTH-1:0] ALUResultW;//wrieback
 logic [DATA_WIDTH-1:0] ReadDataW;//writeback
 logic [DATA_WIDTH-1:0] PCPlus4W;//writeback
 logic [DATA_WIDTH-1:0] ResultW;//from writeback to decode
-logic [ADDR_WIDTH-1:0] RdW;//from writeback to decode
+logic [4:0] RdW;//from writeback to decode
 logic RegWriteW;//from writeback to decode
 
 
 
-always_ff @( negedge clk) begin//register between fetch and decode
+always_ff @(negedge clk) begin//register between fetch and decode
     InstrD <= InstrF;
     PCD <= PCF;
     PCPlus4D <= PCPlus4F;
@@ -128,6 +129,7 @@ fetch Fetch_block(
 );
 
 decode Decode_block(
+    .clk(clk),
     .InstrD(InstrD),
     .ResultW(ResultW),
     .RdW(RdW),

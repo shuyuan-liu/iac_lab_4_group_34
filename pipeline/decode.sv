@@ -2,6 +2,7 @@ module decode #(
     parameter ADDR_WIDTH = 5,
              DATA_WIDTH = 32
 )(
+    input clk,
     input logic [DATA_WIDTH-1:0] InstrD,
     input logic [DATA_WIDTH-1:0] ResultW,
     input logic [ADDR_WIDTH-1:0] RdW,

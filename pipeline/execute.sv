@@ -50,7 +50,7 @@ adder PCTarget_adder(
 
 mux_2 Jal_mux(
     .sel(JalSrcE),
-    .in0(PCTargetE),
+    .in0(ALUResultE),
     .in1(PCAdderResult),
     .out(PCTargetE)
 );

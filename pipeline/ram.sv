@@ -1,18 +1,19 @@
 module ram #(
     parameter ADDR_WIDTH = 17,
-              DATA_WIDTH = 8
+              DATA_WIDTH = 8,
+              BASE_ADDR = 0
 )(
     input  logic                 clk,
     input  logic                 write_en,
     input  logic[1:0]            width, // 0 = byte, 1 = halfword, 2 = word
     input  logic                 read_sign_ext,
-    input  logic[ADDR_WIDTH-1:0] read_addr,
-    input  logic[ADDR_WIDTH-1:0] write_addr,
+    input  logic[31:0] read_addr,
+    input  logic[31:0] write_addr,
     input  logic[31:0]           din,
     output logic[31:0]           dout
 );
 
-bit[DATA_WIDTH-1:0] memory[2**ADDR_WIDTH-1:0];
+bit[DATA_WIDTH-1:0] memory[BASE_ADDR+(2**ADDR_WIDTH)-1:BASE_ADDR];
 
 always_comb begin
     case (width)
