@@ -1,13 +1,13 @@
 
 First version of control.sv and sign extend
 
-Extension: Add bits to 8. If opsitive signed, 00000. If negative, FFFFF.
-RegWrite: 1 for add  (op = 19, 51), 0 for branch,
-ALUCtrl: 0 sum two number, 1 minus. If =0, EQ =1.
-ALUSrc: 0 normal, 1 immediate.
-OP=51 R-type.
-Imm Src: sign extend?
-PCSrc: Pc+Imm or PC?
+1. Extension: Add bits to 8. If opsitive signed, 00000. If negative, FFFFF.
+2. RegWrite: 1 for add  (op = 19, 51), 0 for branch,
+3. ALUCtrl: 0 sum two number, 1 minus. If =0, EQ =1.
+4. ALUSrc: 0 normal, 1 immediate.
+5. OP=51 R-type.
+6. Imm Src: sign extend?
+7. PCSrc: Pc+Imm or PC?
 
 
 
