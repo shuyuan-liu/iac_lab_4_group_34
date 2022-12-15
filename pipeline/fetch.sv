@@ -20,7 +20,7 @@ mux_2 PC_mux(
 );
 
 always_ff @(posedge clk) begin
-    PCF<=PCF0;
+    PCF <= PCF0;
 end
 
 instr_rom Instr_rom(

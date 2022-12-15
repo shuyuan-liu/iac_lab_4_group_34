@@ -16,12 +16,13 @@ module execute #(
     output logic [DATA_WIDTH-1:0] PCTargetE,
     input logic JalSrcE
 );
- logic ZeroE;
- logic [DATA_WIDTH-1:0] SrcBE;
- logic [DATA_WIDTH-1:0] PCAdderResult;
 
- 
- assign PCSrcE = JumpE | (BranchE & ZeroE);
+logic ZeroE;
+logic [DATA_WIDTH-1:0] SrcBE;
+logic [DATA_WIDTH-1:0] PCAdderResult;
+
+
+assign PCSrcE = JumpE | (BranchE & ZeroE);
 
 
 alu ALU(
@@ -55,4 +56,3 @@ mux_2 Jal_mux(
 );
 
 endmodule
-

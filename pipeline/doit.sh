@@ -1,3 +1,5 @@
+#!/usr/bin/sh
+
 rm -rf obj_dir
 rm -f pipeline.vcd
 

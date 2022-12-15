@@ -9,7 +9,6 @@ module memory#(
     output logic [DATA_WIDTH-1:0] ReadDataM,
     input logic [1:0] WordWidthM,
     input logic LoadSignExtM
-    
 );
 
 ram Data_Memory(
@@ -22,7 +21,5 @@ ram Data_Memory(
     .write_en(MemWriteM),
     .clk(clk)
 );
-
-
 
 endmodule

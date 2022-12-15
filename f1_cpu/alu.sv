@@ -3,8 +3,7 @@ module alu #(
 )(
     input  logic[2:0]            mode,
     input  logic[DATA_WIDTH-1:0] op1, op2,
-    output logic[DATA_WIDTH-1:0] out,
-    output logic                 less_than_unsigned, less_than_signed
+    output logic[DATA_WIDTH-1:0] out
 );
 
 always_comb begin
@@ -18,11 +17,6 @@ always_comb begin
         6: out = op1 >> op2;
         7: out = op1; // pass-through
     endcase
-end
-
-always_comb begin
-    less_than_unsigned = (unsigned'(op1) < unsigned'(op2));
-    less_than_signed = (signed'(op1) < signed'(op2));
 end
 
 endmodule

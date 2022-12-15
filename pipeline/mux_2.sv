@@ -8,5 +8,5 @@ module mux_2 #(
 );
 
 assign out = sel ? in1 : in0;
-    
+
 endmodule

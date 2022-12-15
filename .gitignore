@@ -1,4 +1,6 @@
 f1_cpu/src/Makefile
 f1_cpu/obj_dir
 f1_cpu/*.vcd
+pipeline/obj_dir
+pipeline/*.vcd
 rv32i_instructions.ods
