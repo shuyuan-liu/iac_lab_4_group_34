@@ -4,9 +4,11 @@ Contribution I made:
 
 
 
-First version of control.sv and sign_extend.sv(lab4)
+First version of control.sv(5557f6c), sign_extend.sv(1e87740), instrmen.sv(a5faa17)
 
-1. Extension: Add bits to 8. If opsitive signed, 00000. If negative, FFFFF.
+Target:
+
+1. Sign Extension: Add bits to 8. If opsitive signed, 00000. If negative, FFFFF.
 2. RegWrite: 1 for add  (op = 19, 51), 0 for branch,
 3. ALUCtrl: 0 sum two number, 1 minus. If the result of minus=0, EQ =1.
 4. ALUSrc: 0 normal, 1 immediate.
@@ -14,7 +16,10 @@ First version of control.sv and sign_extend.sv(lab4)
 6. ImmSrc: sign extend.
 7. PCSrc: Pc+Imm or PC.
 
-
+The improvement I made during coding:
+1. Shuyuan Leo Liu suggest me to remove unrelated comments.(5557f6c) Done.(18bb3b8)
+2. Correct the method of combining 20 digits of 0 and 1 with the input in sign extend.(1e87740)
+3. The output RD of instruction memory should be separated into different inputs connected to register file instead of only 1 output. (85c67df)
 
 Updated RISC-V and improvement I made
 
