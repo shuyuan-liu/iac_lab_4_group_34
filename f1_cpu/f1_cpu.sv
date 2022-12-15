@@ -23,6 +23,8 @@ logic [31:0] ImmExt;
 logic [31:0] ReturnAddr;
 logic [31:0] LoadData;
 logic [31:0] ALUResult;
+logic [1:0] RAMLoadWidth;
+logic RAMLoadDoSignExt;
 
 control ControlUnit(
     .opcode(Instr[6:0]),
@@ -37,7 +39,9 @@ control ControlUnit(
     .ALUsrcA(ALUSrcA),
     .ALUsrcB(ALUSrcB),
     .PCsrc(PCSrc),
-    .DoJump(DoJump)
+    .DoJump(DoJump),
+    .wordWidth(RAMLoadWidth),
+    .loadSignExt(RAMLoadDoSignExt)
 );
 
 register_file RegisterFile(
@@ -92,7 +96,9 @@ ram DataMem(
     .write_addr(ALUResult),
     .din(rd2),
     .dout(LoadData),
-    .write_en(MemWrite)
+    .write_en(MemWrite),
+    .width(RAMLoadWidth),
+    .read_sign_ext(RAMLoadDoSignExt)
 );
 
 assign Result = ResultSrc ? LoadData : ALUResult;
