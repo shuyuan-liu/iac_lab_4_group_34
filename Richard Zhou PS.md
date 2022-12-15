@@ -19,7 +19,7 @@ Target:
 The improvement I made during coding:
 1. Shuyuan Leo Liu suggest me to remove unrelated comments.(5557f6c) Done.(18bb3b8)
 2. Correct the method of combining 20 digits of 0 and 1 with the input in sign extend.(1e87740)
-3. The output RD of instruction memory should be separated into different inputs connected to register file instead of only 1 output. (85c67df)
+3. The output RD of instruction memory should be separated into different inputs connected to register file instead of only 1 output. [85c67df](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/85c67df7ef0d54f0b992e4ef81d837004428bcf9)
 
 Updated RISC-V and improvement I made
 
