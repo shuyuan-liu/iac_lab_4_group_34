@@ -126,7 +126,7 @@ always_comb begin
         assign MemWrite = 0;
         assign ResultSrc = 0;
         assign ALUctrl = 7;
-        assign ALUsrcA = 1;
+        assign ALUsrcA = 0;
     end
 
     else if(op==111) begin // jal
@@ -138,7 +138,7 @@ always_comb begin
         assign ALUsrc = 0;
         assign ImmSrc = 3;
         assign RegWrite = 1;
-        assign ALUsrcA = 1;
+        assign ALUsrcA = 0;
     end
 
     else if(op==3) begin //load
