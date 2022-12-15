@@ -4,7 +4,7 @@ module alu #(
     input  logic[2:0]            ctrl,
     input  logic[DATA_WIDTH-1:0] op1, op2,
     output logic[DATA_WIDTH-1:0] out,
-    output logic                 zero, less_than_unsigned, less_than_signed
+    output logic                 zero
 );
 
 always_comb begin
@@ -20,10 +20,6 @@ always_comb begin
     endcase
 end
 
-always_comb begin
-    zero = (out == 0);
-    less_than_unsigned = (unsigned'(op1) < unsigned'(op2));
-    less_than_signed = (signed'(op1) < signed'(op2));
-end
+assign zero = (out == 0);
 
 endmodule
