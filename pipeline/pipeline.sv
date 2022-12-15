@@ -4,7 +4,7 @@ module pipeline #(
 )(
     input logic clk,
     input logic rst,
-    output logic [DATA_WIDTH-1:0] a0,
+    output logic [DATA_WIDTH-1:0] a0
 );
 
 
@@ -147,7 +147,8 @@ decode Decode_block(
     .ImmExtD(ImmExtD),
     .WordWidthD(WordWidthD),
     .LoadSignExtD(LoadSignExtD),
-    .JalSrcD(JalSrcD)
+    .JalSrcD(JalSrcD),
+    .a0(a0)
 );
 
 execute Execute_block(

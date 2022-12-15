@@ -20,7 +20,8 @@ module decode #(
     output logic [DATA_WIDTH-1:0] ImmExtD,
     output logic [1:0] WordWidthD,
     output logic LoadSignExtD,
-    output logic JalSrcD
+    output logic JalSrcD,
+    output logic [DATA_WIDTH-1:0] a0 
 );
 
  logic [1:0] ImmSrcD;
@@ -50,7 +51,8 @@ register_file MyRegister(
     .rd1(Rd1D),
     .rd2(Rd2D),
     .wd3(ResultW),
-    .we3(RegWriteW)
+    .we3(RegWriteW),
+    .a0(a0)
 );
 
 sign_extend Extend(
