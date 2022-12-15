@@ -1,20 +1,19 @@
 module control (
-    // interface signals
     input logic [6:0] op,
     input logic [2:0] funct3,
     input logic func7_5,
     input logic Zero,
-    output logic RegWrite, //clk
+    output logic RegWrite, 
     output logic [2:0] ALUctrl, //add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
-    output logic ALUsrc, // enable
+    output logic ALUsrc, 
     output logic [1:0] ImmSrc,//I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
-    output logic PCsrc, //count output
+    output logic PCsrc, 
     output logic ResultSrc, // only 1 if load
     output logic MemWrite,
     output logic ALUsrcA, // only 1 for auipc, 0 otherwise
     output logic JALctrl // 1 if jalr or jal, 0 otherwise
 );
-// indicates that this is a clocked circuit
+
 
 always_comb begin
     if(op==19) begin
