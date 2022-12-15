@@ -3,17 +3,21 @@ module ram #(
               DATA_WIDTH = 8,
               BASE_ADDR = 0
 )(
-    input  logic                 clk,
-    input  logic                 write_en,
-    input  logic[1:0]            width, // 0 = byte, 1 = halfword, 2 = word
-    input  logic                 read_sign_ext,
+    input  logic       clk,
+    input  logic       write_en,
+    input  logic[1:0]  width, // 0 = byte, 1 = halfword, 2 = word
+    input  logic       read_sign_ext,
     input  logic[31:0] read_addr,
     input  logic[31:0] write_addr,
-    input  logic[31:0]           din,
-    output logic[31:0]           dout
+    input  logic[31:0] din,
+    output logic[31:0] dout
 );
 
-bit[DATA_WIDTH-1:0] memory[BASE_ADDR+(2**ADDR_WIDTH)-1:BASE_ADDR];
+logic[DATA_WIDTH-1:0] memory[BASE_ADDR+(2**ADDR_WIDTH)-1:BASE_ADDR];
+
+initial begin
+    $readmemh("sine.mem", memory, 'h10000);
+end
 
 always_comb begin
     case (width)
@@ -22,7 +26,7 @@ always_comb begin
         1: if (read_sign_ext) dout = {{16{memory[read_addr+1][7]}}, memory[read_addr+1], memory[read_addr]};
            else               dout = {16'b0, memory[read_addr+1], memory[read_addr]};
         2: dout = {memory[read_addr+3], memory[read_addr+2], memory[read_addr+1], memory[read_addr]};
-        default: dout = 0;
+        default: dout = 32'h5A5A5A5A;
     endcase
 end
 
