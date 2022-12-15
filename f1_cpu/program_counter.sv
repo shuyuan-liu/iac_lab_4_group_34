@@ -1,5 +1,6 @@
-module program_counter
-(
+module program_counter #(
+    parameter RESET_ADDR = 32'hBFC00000
+)(
     input logic clk,
     input logic rst,
     input logic [31:0] addr_offset,
@@ -10,7 +11,7 @@ module program_counter
 
 always_ff @(posedge clk) begin
     if (rst)
-        pc <= 0;
+        pc <= RESET_ADDR;
     else
         case (pc_src)
             0: pc <= pc + 4;
