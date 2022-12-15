@@ -11,7 +11,7 @@ logic ResultSrc;
 logic [2:0] ALUMode;
 logic ALUSrcA;
 logic ALUSrcB;
-logic [1:0] ImmFormat;
+logic [2:0] ImmFormat;
 logic RegWrite;
 logic MemWrite;
 logic DoJump;

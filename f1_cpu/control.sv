@@ -6,7 +6,7 @@ module control (
     output logic MemWrite,
     output logic[2:0] ALUMode, // add,addi = 0; sub = 1; and,andi = 2; or = 3; xori = 4; slli = 5; srli = 6; default = 0; 7 for nothing
     output logic ALUsrcB,
-    output logic[1:0] ImmFormat,// I = 0; B = 1; U = 2; J = 3 (R-type not included, default 0)
+    output logic[2:0] ImmFormat,// I = 0; B = 1; U = 2; J = 3; S = 4 (R-type not included, default 0)
     output logic[1:0] PCsrc,
     output logic ResultSrc, // only 1 if load
     output logic ALUsrcA, // only 1 for auipc, 0 otherwise
@@ -58,7 +58,7 @@ always_comb begin
         PCsrc = 0;
         ALUsrcA = 0;
         ALUsrcB = 0;
-        ImmFormat = 0;
+        ImmFormat = 4;
         RegWrite = 0;
         ALUMode = 7;
         WordWidth = funct3[1:0];
