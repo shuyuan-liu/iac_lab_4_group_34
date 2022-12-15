@@ -1,6 +1,6 @@
 Contribution I made: 
 1. Basic task: Updated RISC-V:   control.sv, sign_extend.sv, instrmem.sv(initial version)                    
-2. Streched Goal 1 pipeline: updated code: control.sv, sign_extend.sv, memory.sv (memory part of the 5 stages in pipeline)
+2. Streched Goal 1 pipeline: updated code: control.sv, sign_extend.sv, memory.sv (memory part of the 5 stages in pipeline) in f1_cpu.
 
 
 
@@ -32,4 +32,4 @@ The improvement I made during coding:
 2. In my previous coding, RegWrite: 1 for add  (op = 19, 51), 0 for branch. In my updated control.sv: RegWrite: 1 for op = 19(alu immediate), 23(auipc), 51(alu normal), 55(load upper immediate), 103(jalr), 111(jal).
 3. I noticed that data memory block is used for both load and store insturctions, ResultSrc = 1 only in load insturtions because RAM needs to write data back to registers.
 4. For jal, jalr, auipc instructions, we need to add a new multiplexer after RD1 output of Register File. This decides whether we use PC or the sign extended result that is written into the registers. A new output ALUsrcA is added to contorl unit.
-5. My teammate Jim suggested that PC+4 needs to connect to a multiplexer as well. He updated control.sv with a new output JALctrl. It controls the select of PC+4 and result from registers. Their destination is WD3. JALcrul is 1 only for jal and jalr.
+5. My teammate Jim suggested that PC+4 needs to connect to a multiplexer as well. He updated control.sv with a new output JALctrl. It controls the select of PC+4 and result from registers. Their destination is WD3. JALctul is 1 only for jal and jalr.
