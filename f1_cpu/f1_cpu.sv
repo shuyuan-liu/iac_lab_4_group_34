@@ -13,7 +13,6 @@ logic ALUSrcA;
 logic ALUSrcB;
 logic [1:0] ImmFormat;
 logic RegWrite;
-logic ResultIsZero;
 logic MemWrite;
 logic DoJump;
 logic [31:0] rd1;
@@ -40,8 +39,8 @@ control ControlUnit(
     .ALUsrcB(ALUSrcB),
     .PCsrc(PCSrc),
     .DoJump(DoJump),
-    .wordWidth(RAMLoadWidth),
-    .loadSignExt(RAMLoadDoSignExt)
+    .WordWidth(RAMLoadWidth),
+    .LoadSignExt(RAMLoadDoSignExt)
 );
 
 register_file RegisterFile(
@@ -62,7 +61,7 @@ sign_extend Extend(
     .ImmExt(ImmExt)
 );
 
-instr_rom InstrMem(
+rom InstrMem(
     .addr(PC),
     .dout(Instr)
 );

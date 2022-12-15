@@ -1,4 +1,4 @@
-module instr_rom #(
+module rom #(
     parameter ADDR_WIDTH = 12,
               BASE_ADDR  = 32'hBFC00000
 )(
