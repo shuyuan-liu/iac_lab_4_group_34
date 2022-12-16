@@ -11,7 +11,7 @@ My idea of designing components(Link below shows histories of original programs 
    Based on different type of instructions, I designed 5 situations for sign_extend. My teammate shuyuan-liu adds a [default value](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/0db0cca657147e96137188cc58819e2cf2146967) for testing purpose.
    
  3. [instrmem.sv(initial version)](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/a5faa179a357e5ca24adc764a01ac75a2319f68e) and [memory.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/017d4ba8a1d13d8ec5a670ceb979c27f86f17f3c)
-   I check the name of input and output ports of the file and the previous file. The output of program counter PC will be the input A of my file. The output of instrmen.sv will then be divided into different parts which will be the input of control unit, register file and sign extend unit. Memory.sv uses a similar method to make.
+   I check the name of input and output ports of the file and the previous file. The output of program counter PC will be the input A of my file. The output of instrmen.sv will then be divided into different parts which will be the input of control unit, register file and sign extend unit. Memory.sv uses a similar method to be made.
  
 The improvement I made during coding:
 1. Shuyuan Leo Liu suggest me to [remove unrelated comments and incorrect format at the head](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/5557f6c17ded0fd398a35d54280f81e5709cc5d1). Done.[See here for changes](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/18e70f9a82282443f31ff73bf0d8c250ff4f24b1)
