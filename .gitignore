@@ -2,3 +2,7 @@ obj_dir/
 *.vcd
 rv32i_instructions.ods
 .DS_Store
+*.mem
+*.hex
+*/src/myprog
+!*/src/myprog/*.s
