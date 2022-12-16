@@ -15,14 +15,14 @@ My idea of designing components(Link below shows histories of original programs 
  
 The improvement I made during coding:
 1. Shuyuan Leo Liu suggest me to [remove unrelated comments and incorrect format at the head](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/5557f6c17ded0fd398a35d54280f81e5709cc5d1). Done.[See here for changes](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/18e70f9a82282443f31ff73bf0d8c250ff4f24b1)
-2. Correct the method of combining 20 digits of 0 and 1 with the input in sign extend.[See here for changes](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/1e877402444a762074fda79e7f45f6bc35892bf0)
-3. The output RD of instruction memory should be separated into different inputs connected to register file instead of only 1 output. [See here for changes](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/85c67df7ef0d54f0b992e4ef81d837004428bcf9)
+2. At the early stages, I corrected the method of combining 20 digits of 0 and 1 with the input in sign extend.[See here for changes.](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/1e877402444a762074fda79e7f45f6bc35892bf0)This reminds me that I should always be careful checking typing errors during coding.
+3. The output RD of instruction memory should be separated into different inputs connected to register file instead of only 1 output. [See here for changes.](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/85c67df7ef0d54f0b992e4ef81d837004428bcf9) I learned how to write registers in a correct format.
 
-Updated RISC-V and improvement I made
+Special design decision:
+1. I sep up different numbers for flags such as Immformat and ALUsucB. Those numbers represent different conditions.
+2. During writing of control unit, our team notice that we need to separate the output from PC and register file for some of the special instrutions like jalr. So we add a multiplexer connecting Program Counter and register( this is also mentioned by Jim and Boyan's statements). There is also an unused line that connects from PC to RD1 and an unused multiplexer. They should be used to serve auipc.
 
-The improvement I made during coding:
-1. I checked the sign-extend data structure for different type of instructions. S type is not included.
-2. In my previous coding, RegWrite: 1 for add  (op = 19, 51), 0 for branch. In my updated control.sv: RegWrite: 1 for op = 19(alu immediate), 23(auipc), 51(alu normal), 55(load upper immediate), 103(jalr), 111(jal).
-3. I noticed that data memory block is used for both load and store insturctions, ResultSrc = 1 only in load insturtions because RAM needs to write data back to registers.
-4. For jal, jalr, auipc instructions, we need to add a new multiplexer after RD1 output of Register File. This decides whether we use PC or the sign extended result that is written into the registers. A new output ALUsrcA is added to contorl unit.
-5. My teammate Jim suggested that PC+4 needs to connect to a multiplexer as well. He updated control.sv with a new output JALctrl. It controls the select of PC+4 and result from registers. Their destination is WD3. JALctul is 1 only for jal and jalr.
+What I might do differently
+1. Try to finish programs earlier toget advices from GTA.
+2. Write down the plan on notebook first before designing in order to save time for thinking.
+3. Learn to use GTKwave more effectively to help testing.
