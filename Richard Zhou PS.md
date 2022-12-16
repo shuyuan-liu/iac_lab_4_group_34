@@ -1,6 +1,6 @@
 Contribution I made(Those are the finished version of programs): 
-1. Basic task: f1_cpu:   [control.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/blob/main/f1_cpu/control.sv), [sign_extend.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/blob/main/f1_cpu/sign_extend.sv), [instrmem.sv(initial version, not used)](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/a5faa179a357e5ca24adc764a01ac75a2319f68e)                   
-2. Streched Goal 1: pipeline: [control.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/blob/main/pipeline/control.sv), [sign_extend.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/blob/main/pipeline/sign_extend.sv), [memory.sv](https://github.com/shuyuan-liu/iac_lab_4_group_34/blob/main/pipeline/memory.sv).
+1. Basic task: f1_cpu:   control.sv, sign_extend.sv, [instrmem.sv(initial version, not used)](https://github.com/shuyuan-liu/iac_lab_4_group_34/commit/a5faa179a357e5ca24adc764a01ac75a2319f68e)                   
+2. Streched Goal 1: pipeline: control.sv, sign_extend.sv, memory.sv.
 
 My idea of designing components(Link below shows proof of original programs which has my idea of design. The finished version above is transferred by my team):
 
