@@ -57,10 +57,10 @@ always_comb begin
         ResultSrc = 0;
         PCsrc = 0;
         ALUsrcA = 0;
-        ALUsrcB = 0;
+        ALUsrcB = 1;
         ImmFormat = 4;
         RegWrite = 0;
-        ALUMode = 7;
+        ALUMode = 0;
         WordWidth = funct3[1:0];
     end
 
