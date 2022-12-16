@@ -145,9 +145,9 @@ always_comb begin
         PCsrc = 0;
         ResultSrc = 1;
         MemWrite = 0;
-        ALUMode = 7;
+        ALUMode = 0;
         ALUsrcA = 0;
-        ALUsrcB = 0;
+        ALUsrcB = 1;
         ImmFormat = 0;
         RegWrite = 1;
         WordWidth = funct3[1:0];
